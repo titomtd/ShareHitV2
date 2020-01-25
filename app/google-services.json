@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "76583587853",
+    "firebase_url": "https://sharehitv2.firebaseio.com",
+    "project_id": "sharehitv2",
+    "storage_bucket": "sharehitv2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:76583587853:android:37ee25dccfe963a371c544",
+        "android_client_info": {
+          "package_name": "com.example.sharehitv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "76583587853-lbdmt1c17ot2l46ng5ujn3etjklp1f3t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sharehitv2",
+            "certificate_hash": "81bd7b620f084500d7a87ea2937e6d1a567f92b8"
+          }
+        },
+        {
+          "client_id": "76583587853-6refh9ubtft8jt7h35m031eqv3n7d9uk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0Ohe2VAN1rWp9YVlB_9C7y9JUVU3chos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "76583587853-6refh9ubtft8jt7h35m031eqv3n7d9uk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

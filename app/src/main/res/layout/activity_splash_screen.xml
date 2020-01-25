@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Utilities.SplashScreen"
+    android:background="@color/colorPrimary">
+
+    <!--<ImageView
+        android:id="@+id/logoSplashScreen"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:srcCompat="@drawable/slogo"
+        android:scaleType="fitXY"
+        android:layout_gravity="center"/>-->
+    <ImageView
+        android:id="@+id/logoSplashScreen"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:srcCompat="@drawable/slogo"
+        android:layout_gravity="center"/>
+</FrameLayout>

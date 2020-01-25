@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#005EAA</color>
+    <color name="colorPrimaryDark">#005EAA</color>
+
+
+    <color name="bleuShareHit">#005EAA</color>
+    <color name="colorAccent">#005EAA</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="black_transparent">#80000000</color>
+    <color name="grey">#EFEFEF</color>
+    <color name="barColor">#0C0608</color>
+    <color name="gris">#EFEFEFEF</color>
+    <color name="likeblue">#1B8FFB</color>
+    <color name="grisStyle">#939598</color>
+    <color name="trans">#80000000</color>
+    <color name="grisClair">#ecf0f1</color>
+    <color name="transparent">#00000000</color>
+    <array name="colorPagesViewPager">
+        <item>#EDD9CF</item>
+        <item>#BED4D6</item>
+        <item>#ADCEB7</item>
+        <item>#F7CF8B</item>
+        <item>#FD96A2</item>
+    </array>
+</resources>

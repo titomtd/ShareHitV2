@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/menu_feed_page" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_bookmark"
+            android:title="@string/menu_private_bookmark_page" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_menu_my_profil"
+            android:title="@string/menu_profil_page" />
+        <item
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_menu_search_user"
+            android:title="@string/menu_tools" />
+    </group>
+
+    <item android:title="Faut un titre la">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_settings" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/menu_politique" />
+        </menu>
+    </item>
+
+</menu>

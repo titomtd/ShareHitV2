@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NavigationFragment.FeedPageFragment"
+    android:background="@color/grey">
+
+
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:clickable="true"
+        android:focusable="true"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignBottom="@+id/space"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="40dp">
+
+
+
+    </FrameLayout>
+
+
+    <com.luseen.spacenavigation.SpaceNavigationView
+        android:id="@+id/space"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        app:active_item_color="#f1c40f"
+        app:centre_button_color="@color/white"
+        app:centre_button_icon="@drawable/ic_add_black_24dp"
+        app:inactive_item_color="@color/white"
+        app:space_background_color="@color/barColor"
+        app:space_item_icon_only_size="@dimen/space_item_icon_only_size"
+        app:space_item_icon_size="@dimen/space_item_icon_default_size"
+        app:space_item_text_size="@dimen/space_item_text_default_size" />
+
+
+
+</RelativeLayout>

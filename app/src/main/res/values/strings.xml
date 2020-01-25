@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">ShareHitV2</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_feed_page">Accueil</string>
+    <string name="menu_private_bookmark_page">Bookmark</string>
+    <string name="menu_profil_page">Mon profil</string>
+    <string name="menu_tools">Rechercher un utilisateur</string>
+    <string name="menu_settings">Paramètres</string>
+    <string name="menu_politique">Confidentialité et politique</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

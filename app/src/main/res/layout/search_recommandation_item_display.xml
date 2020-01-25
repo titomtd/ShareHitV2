@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/img_ar"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="@color/space_transparent"
+                android:scaleType="center"
+                android:src="@mipmap/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/circle"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignTop="@+id/img_ar"
+                android:layout_alignEnd="@+id/img_ar"
+                android:layout_alignRight="@+id/img_ar"
+                android:layout_alignBottom="@+id/img_ar"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="75dp"
+                app:srcCompat="@drawable/cercle" />
+
+            <ImageView
+                android:id="@+id/playButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/circle"
+                android:layout_alignLeft="@+id/circle"
+                android:layout_alignTop="@+id/circle"
+                android:layout_alignEnd="@+id/circle"
+                android:layout_alignRight="@+id/circle"
+                android:layout_alignBottom="@+id/circle"
+                android:paddingLeft="12dp"
+                android:paddingTop="15dp"
+                android:paddingRight="9dp"
+                android:paddingBottom="15dp"
+                app:srcCompat="@drawable/ic_play_white" />
+
+            <com.taishi.library.Indicator
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_alignStart="@+id/playButton"
+                android:layout_alignLeft="@+id/playButton"
+                android:layout_alignTop="@+id/playButton"
+                android:layout_alignEnd="@+id/playButton"
+                android:layout_alignRight="@+id/playButton"
+                android:layout_alignBottom="@+id/playButton"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                app:bar_color="@color/white"
+                android:visibility="invisible"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/name_ar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Creator name"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/spec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Like: " />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

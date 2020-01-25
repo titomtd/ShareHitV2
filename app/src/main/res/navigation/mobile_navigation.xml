@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.sharehitv2.NavigationFragment.FeedPageFragment"
+        android:label="@string/menu_feed_page"
+        tools:layout="@layout/fragment_feed_page" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.sharehitv2.NavigationFragment.BookmarkPrivateFragment"
+        android:label="@string/menu_private_bookmark_page"
+        tools:layout="@layout/fragment_bookmark_private" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.sharehitv2.NavigationFragment.MyProfilFragment"
+        android:label="@string/menu_profil_page"
+        tools:layout="@layout/fragment_my_profil" />
+
+    <fragment
+        android:id="@+id/nav_tools"
+        android:name="com.example.sharehitv2.NavigationFragment.SearchProfilFragment"
+        android:label="@string/menu_tools"
+        tools:layout="@layout/fragment_search_user" />
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.example.sharehitv2.NavigationFragment.share.ShareFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_share" />
+
+    <fragment
+        android:id="@+id/nav_send"
+        android:name="com.example.sharehitv2.NavigationFragment.send.SendFragment"
+        android:label="@string/menu_politique"
+        tools:layout="@layout/fragment_send" />
+</navigation>
