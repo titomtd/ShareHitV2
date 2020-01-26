@@ -1,9 +1,9 @@
-package com.example.sharehitv2.NavigationFragment;
+package com.example.sharehitv2;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,15 +13,13 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.sharehitv2.Model.Comment;
-import com.example.sharehitv2.R;
 import com.example.sharehitv2.Utilities.DividerItemDecorator;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,7 +43,8 @@ import java.util.TimeZone;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class CommentFragment extends Fragment {
+public class CommentPage extends AppCompatActivity {
+
     private TextView sendButton;
     private EditText sendText;
 
@@ -56,27 +55,34 @@ public class CommentFragment extends Fragment {
 
     private RecyclerView commentList;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_comment_page);
 
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_comment, container, false);
-        commentList = (RecyclerView) root.findViewById(R.id.commentRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Commentaire");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+
+        commentList = (RecyclerView) findViewById(R.id.commentRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(false);
         commentList.setLayoutManager(layoutManager);
 
 
 
-        sendButton = (TextView) root.findViewById(R.id.sendComment);
-        sendText = (EditText) root.findViewById(R.id.textComment);
+        sendButton = (TextView) findViewById(R.id.sendComment);
+        sendText = (EditText) findViewById(R.id.textComment);
 
-        Bundle b = getActivity().getIntent().getExtras();
+        Bundle b = getIntent().getExtras();
 
         sendButton.setEnabled(false);
 
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
-        comRef = FirebaseDatabase.getInstance().getReference().child("recos").child("-LzOb2TZYApOHwFe-8tP").child("Coms");
+        comRef = FirebaseDatabase.getInstance().getReference().child("recos").child(b.getString("key")).child("Coms");
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
@@ -114,7 +120,7 @@ public class CommentFragment extends Fragment {
                     comRef.updateChildren(usersMap);
                     sendText.setText("");
                 } else {
-                    Toast.makeText(getContext(), "Le message est vide", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Le message est vide", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -122,16 +128,22 @@ public class CommentFragment extends Fragment {
         displayAllComment();
 
 
-        return root;
+
+
     }
+
     public static long currentTimeSecsUTC() {
         return Calendar.getInstance(TimeZone.getTimeZone("UTC"))
                 .getTimeInMillis() / 1000;
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+    }
+
     private void displayAllComment() {
-        final Intent intent2 = new Intent(getContext(), FeedPageFragment.class);
-        final Intent intent3 = new Intent(getContext(), ProfilFragment.class);
+        final Intent intent3 = new Intent(getApplicationContext(), ProfilPage.class);
         final Bundle b = new Bundle();
         FirebaseRecyclerAdapter<Comment, CommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>
                 (
@@ -154,7 +166,7 @@ public class CommentFragment extends Fragment {
                 filepath.child(comment.getUid()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
                     @Override
                     public void onSuccess(StorageMetadata storageMetadata) {
-                        Picasso.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+comment.getUid()+"?alt=media").fit().centerInside().into(commentViewHolder.getImgProfilComment());
+                        Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+comment.getUid()+"?alt=media").fit().centerInside().into(commentViewHolder.getImgProfilComment());
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -186,23 +198,16 @@ public class CommentFragment extends Fragment {
                 commentViewHolder.getImgProfilComment().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.e("UserID", comment.getUid());
-                        if(mAuth.getCurrentUser().getUid().equals(comment.getUid())){
-                            b.putInt("key", 1);
-                            intent2.putExtras(b);
-                            startActivity(intent2);
-                        } else {
                             b.putString("key", comment.getUid());
                             intent3.putExtras(b);
                             startActivity(intent3);
-                        }
                     }
                 });
 
             }
         };
         commentList.setAdapter(firebaseRecyclerAdapter);
-        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(getContext(), R.drawable.recycler_view_divider));
+        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(getApplicationContext(), R.drawable.recycler_view_divider));
         commentList.addItemDecoration(dividerItemDecoration);
 
     }
@@ -236,5 +241,4 @@ public class CommentFragment extends Fragment {
             tx.setText(name);
         }
     }
-
 }

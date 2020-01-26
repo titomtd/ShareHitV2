@@ -22,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -31,8 +32,10 @@ import com.example.sharehitv2.ApiManager;
 import com.example.sharehitv2.Model.Recommandation;
 import com.example.sharehitv2.NavigationFragment.Fragment.FeedFragment;
 import com.example.sharehitv2.NavigationFragment.Fragment.FollowFragment;
+import com.example.sharehitv2.PagePrincipale;
 import com.example.sharehitv2.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.luseen.spacenavigation.SpaceItem;
@@ -78,12 +81,15 @@ public class FeedPageFragment extends Fragment {
 
 
 
-
-
-
-
-
-
+    @Override
+    public void onStart() {
+        super.onStart();
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user == null) {
+            startActivity(new Intent(getContext(), PagePrincipale.class));
+        }
+    }
 
     private boolean loadFragement(Fragment fragment, boolean left){
         if(fragment != null){
@@ -114,56 +120,26 @@ public class FeedPageFragment extends Fragment {
         return false;
     }
 
-    public static Drawable drawableFromUrl(String url) throws IOException {
-        Bitmap x;
-
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.connect();
-        InputStream input = connection.getInputStream();
-
-        x = BitmapFactory.decodeStream(input);
-        return new BitmapDrawable(Resources.getSystem(), x);
-    }
-
-    private Drawable ImageOperations(Context ctx, String url, String saveFilename) {
-        try {
-            InputStream is = (InputStream) this.fetch(url);
-            Drawable d = Drawable.createFromStream(is, saveFilename);
-            return d;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return null;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public Object fetch(String address) throws MalformedURLException,IOException {
-
-        URL url = new URL(address);
-        Object content = url.getContent();
-        return content;
-    }
-
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         final View root = inflater.inflate(R.layout.fragment_feed_page, container, false);
 
 
+
         mAuth = FirebaseAuth.getInstance();
         container = root.findViewById(R.id.container);
         navigationView = root.findViewById(R.id.space);
 
-        //Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit-52071.appspot.com/o/Pdp%2F"+mAuth.getCurrentUser().getUid()+"?alt=media&token=32f03c76-31a8-4ea2-8cac-8fa92bef6667").networkPolicy(NetworkPolicy.NO_CACHE).memoryPolicy(MemoryPolicy.NO_CACHE).fit().centerInside().into(profilePicture);
+
 
 
         navigationView.initWithSaveInstanceState(savedInstanceState);
-        navigationView.addSpaceItem(new SpaceItem("", R.drawable.time_icon));
-        navigationView.addSpaceItem(new SpaceItem("", R.drawable.star_icon));
-        navigationView.showIconOnly();
+        navigationView.addSpaceItem(new SpaceItem("Tous", R.drawable.time_icon));
+        navigationView.addSpaceItem(new SpaceItem("Suivi", R.drawable.star_icon));
+        //navigationView.showIconOnly();
+
+
 
 
 
@@ -179,26 +155,12 @@ public class FeedPageFragment extends Fragment {
         window.setAttributes(wlp);
 
 
-
-        /*
+        //window.setAttributes(wlp);
         b = getActivity().getIntent().getExtras();
 
 
-        if(b == null){
-            Fragment fragment = new FeedFragment();
-            loadFragement(fragment,true);
-        } else {
-            Fragment fragment = new ProfilFragment();
-            loadFragement(fragment,false);
-        }
-
-
-         */
         Fragment fragment = new FeedFragment();
         loadFragement(fragment,true);
-
-
-
 
         navigationView.setSpaceOnClickListener(new SpaceOnClickListener() {
             Fragment fragment = null;
@@ -290,6 +252,11 @@ public class FeedPageFragment extends Fragment {
                     fragment = new FeedFragment();
                 }else if (itemIndex == 1){
                     fragment = new FollowFragment();
+                }else if(itemIndex == 2){
+                    //fragment = new BookmarkFragment();
+                    //
+                }else if(itemIndex == 3){
+                    //fragment = new ProfilFragment();
                 }
                 if(currentItem>itemIndex){
                     loadFragement(fragment,false);

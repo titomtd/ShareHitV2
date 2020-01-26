@@ -17,12 +17,15 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NavigationFragment.ProfilFragment"></activity>
+        <activity android:name=".ListLikePage"></activity>
+        <activity android:name=".ProfilPage" />
+        <activity android:name=".CommentPage" />
+        <activity android:name=".NavigationFragment.ProfilFragment" />
         <activity android:name=".NavigationFragment.CommentFragment" />
         <activity android:name=".NavigationFragment.ListLikeFragment" />
         <activity android:name=".Authentification.PasswordForgetPage" />
         <activity android:name=".Authentification.SignUpPage" />
-        <activity android:name=".Authentification.LoginPage"></activity>
+        <activity android:name=".Authentification.LoginPage" />
         <activity
             android:name=".PagePrincipale"
             android:label="@string/app_name"

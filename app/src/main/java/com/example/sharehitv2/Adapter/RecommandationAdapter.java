@@ -23,10 +23,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.androidnetworking.model.Progress;
+import com.example.sharehitv2.CommentPage;
+import com.example.sharehitv2.ListLikePage;
 import com.example.sharehitv2.Model.Recommandation;
-import com.example.sharehitv2.NavigationFragment.CommentFragment;
-import com.example.sharehitv2.NavigationFragment.ListLikeFragment;
-import com.example.sharehitv2.NavigationFragment.ProfilFragment;
+import com.example.sharehitv2.ProfilPage;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,8 +59,7 @@ public class RecommandationAdapter extends
     List<Recommandation> mRecommandation;
     private Animation buttonClick;
     private StorageReference mStorageRef;
-
-    public SwitchFragment switchFragment;
+    private MediaListener mediaListener;
 
 
 
@@ -72,9 +72,7 @@ public class RecommandationAdapter extends
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        switchFragment = (SwitchFragment) context;
-        //musicListener = (MusicListener) context;
-        //videoListener = (VideoListener) context;
+        mediaListener = (MediaListener) context;
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         buttonClick = AnimationUtils.loadAnimation(context, R.anim.click);
@@ -109,9 +107,9 @@ public class RecommandationAdapter extends
         final Recommandation recommandation = mRecommandation.get(position);
 
 
-        final Intent intent1 = new Intent(context, ListLikeFragment.class);
-        final Intent intent2 = new Intent(context, CommentFragment.class);
-        final Intent intent3 = new Intent(context, ProfilFragment.class);
+        final Intent intent1 = new Intent(context, ListLikePage.class);
+        final Intent intent2 = new Intent(context, CommentPage.class);
+        final Intent intent3 = new Intent(context, ProfilPage.class);
 
 
         final String[] keyBookmark = new String[mRecommandation.size()];
@@ -279,10 +277,11 @@ public class RecommandationAdapter extends
             public void onClick(View view) {
                 if(heCanBePlayed(recommandation.getType())) {
                     viewHolder.playButton.startAnimation(buttonClick);
-                    //musicListener.lancerMusique(recommandation);
+                    mediaListener.lancerMusique(recommandation);
                 } else {
-                    //musicListener.stop();
-                    //videoListener.lancerVideo(recommandation);
+                    viewHolder.playButton.startAnimation(buttonClick);
+                    mediaListener.stop();
+                    mediaListener.lancerVideo(recommandation);
 
                     //Toast.makeText(context, "Impossible de lire ce contenu", Toast.LENGTH_LONG).show();
                 }
@@ -564,14 +563,8 @@ public class RecommandationAdapter extends
             @Override
             public void onClick(View v) {
                 b.putString("key", idReco);
-                /*intent2.putExtras(b);
+                intent2.putExtras(b);
                 context.startActivity(intent2);
-
-                 */
-                CommentFragment f1 = new CommentFragment();
-                f1.setArguments(b);
-                switchFragment.changerFragment(f1);
-
 
             }
         });
@@ -779,8 +772,11 @@ public class RecommandationAdapter extends
         return(sb.toString());
     }
 
-    public interface SwitchFragment {
-        void changerFragment(Fragment f);
+    public interface MediaListener{
+        void lancerMusique(Recommandation recommandation);
+        void lancerVideo(Recommandation recommandation);
+        void stop();
     }
+
 
 }

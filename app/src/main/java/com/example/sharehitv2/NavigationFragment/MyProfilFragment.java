@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -62,7 +65,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MyProfilFragment extends Fragment {
+public class MyProfilFragment extends Fragment implements RecommandationAdapter.MediaListener{
 
     FirebaseAuth firebaseAuth, mAuth;
     FirebaseUser user;
@@ -454,4 +457,35 @@ public class MyProfilFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    @Override
+    public void lancerMusique(Recommandation recommandation) {
+
+    }
+
+    @Override
+    public void lancerVideo(Recommandation recommandation) {
+        if(!recommandation.getUrlPreview().equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_video, null);
+            final WebView webView = dialogView.findViewById(R.id.webview);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+            webView.loadUrl("https://www.youtube.com/embed/"+recommandation.getUrlPreview());
+            //webView.loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/rrwycJ08PSA\" frameborder=\"0\" allow=\"autoplay\" allowfullscreen></iframe>", "text/html", "utf-8");
+            webView.setWebChromeClient(new WebChromeClient());
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if(recommandation.getType().equals("game")){
+            Toast.makeText(getContext(), "Les bandes annonces pour les jeux vidéos arrivent prochainement", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "Aucune bande annonce pour cette recommandation", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void stop() {
+
+    }
 }

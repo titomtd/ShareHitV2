@@ -1,13 +1,17 @@
 package com.example.sharehitv2;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
+import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.MyProfilFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -35,10 +39,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.SwitchFragment {
+import java.util.List;
+
+public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -106,20 +116,34 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
                 || super.onSupportNavigateUp();
     }
 
+
     @Override
-    public void changerFragment(Fragment f) {
-        loadFragment(f);
+    public void lancerMusique(Recommandation recommandation) {
+
     }
 
-    private boolean loadFragment(Fragment fragment){
-        if(fragment != null){
-            //getSupportFragmentManager().beginTransaction().replace(id.container, fragment).commit();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.nav_host_fragment, fragment);
-            transaction.commit();
-
-            return true;
+    public Fragment getVisibleFragment(){
+        FragmentManager fragmentManager = this.getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        for(Fragment fragment : fragments){
+            if(fragment != null && fragment.getUserVisibleHint())
+                return fragment;
         }
-        return false;
+        return null;
     }
+
+    @Override
+    public void lancerVideo(Recommandation recommandation) {
+        if(getVisibleFragment() instanceof MyProfilFragment){
+            ((MyProfilFragment) getVisibleFragment()).lancerVideo(recommandation);
+        }
+
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
 }
