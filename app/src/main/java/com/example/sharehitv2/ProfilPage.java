@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfilPage extends AppCompatActivity {
+public class ProfilPage extends AppCompatActivity implements RecommandationAdapter.MediaListener{
 
     private CircleImageView pdp;
     private TextView pseudo, textView;
@@ -379,4 +379,18 @@ public class ProfilPage extends AppCompatActivity {
     }
 
 
+    @Override
+    public void lancerMusique(Recommandation recommandation) {
+        
+    }
+
+    @Override
+    public void lancerVideo(Recommandation recommandation) {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
 }

@@ -81,6 +81,8 @@ public class FeedFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Log.e("testest", "load feed fragment");
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         recyclerView = root.findViewById(R.id.postRecyclerView);
         swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainerFeed);
@@ -95,6 +97,7 @@ public class FeedFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.e("testest", "swipe up");
                 isCharged = true;
                 adapter.notifyDataSetChanged();
                 chargerRecyclerView(chargerListRecommandation());
@@ -256,8 +259,8 @@ public class FeedFragment extends Fragment {
                             recommandation.setPlayable(true);
                         }
                         //recommandation.setPlayable(true);
-
                         list.add(recommandation);
+                        Log.e("testest", "taille de la liste : "+list.size());
                         chargerRecyclerView(list);
 
 

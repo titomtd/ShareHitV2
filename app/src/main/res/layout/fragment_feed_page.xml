@@ -8,17 +8,15 @@
     android:background="@color/grey">
 
 
-
     <FrameLayout
         android:id="@+id/container"
-        android:clickable="true"
-        android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_alignBottom="@+id/space"
         android:layout_marginTop="-10dp"
-        android:layout_marginBottom="40dp">
-
+        android:layout_marginBottom="40dp"
+        android:clickable="true"
+        android:focusable="true">
 
 
     </FrameLayout>

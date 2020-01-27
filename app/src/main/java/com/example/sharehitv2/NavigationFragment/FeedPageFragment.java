@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,6 +87,7 @@ public class FeedPageFragment extends Fragment {
         super.onStart();
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
+        Log.e("testest", "load feed page fragment");
         if(user == null) {
             startActivity(new Intent(getContext(), PagePrincipale.class));
         }

@@ -137,8 +137,9 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
             public boolean onQueryTextSubmit(String query) {
 
                 mExampleList.clear();
-                Log.e("researchAPI", "+," +query);
+                Log.e("researchAPI", "" +query);
                 if(type == 1){
+                    Log.e("researchAPI", "artiste");
                     parseJSONartist(query);
                     typeRecom="artist";
                 }
@@ -175,8 +176,9 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
     }
 
     private Map<String, String> parseJSONartist(String artistName) {
+        Log.e("researchAPI", "inside");
 
-        String url = "http://api.deezer.com/2.0/search/artist/?q="+artistName+"&index=0&nb_items=20&output=json";
+        String url = "https://api.deezer.com/2.0/search/artist/?q="+artistName+"&index=0&nb_items=20&output=json";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -192,6 +194,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
                         final Artist artiste = new Artist(name, nbFan, imgUrl, link);
                         parseJSONartistPreview(tracklist, artiste);
                         mExampleList.add(artiste);
+                        Log.e("researchAPI", "inside");
                     }
 
                     if(mExampleList.size() == 0){
@@ -217,6 +220,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("researchAPI", "erreur : "+ error);
                 error.printStackTrace();
             }
         }
@@ -281,7 +285,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
 
     private Map<String, String> parseJSONalbum(String albumName) {
 
-        String url = "http://api.deezer.com/2.0/search/album/?q="+albumName+"&index=0&nb_items=20&output=json";
+        String url = "https://api.deezer.com/2.0/search/album/?q="+albumName+"&index=0&nb_items=20&output=json";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -387,7 +391,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
 
     private Map<String, String> parseJSONtrack(String trackName) {
         Log.e("researchAPItrack", "+," +trackName);
-        String url = "http://api.deezer.com/2.0/search/track/?q="+trackName+"&index=0&nb_items=20&output=json";
+        String url = "https://api.deezer.com/2.0/search/track/?q="+trackName+"&index=0&nb_items=20&output=json";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -451,7 +455,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
 
     private Map<String, String> parseJSONomdb(String search, final String type) {
 
-        String url = "http://www.omdbapi.com/?s="+search+"&type="+type+"&apikey=a20c2297";
+        String url = "https://www.omdbapi.com/?s="+search+"&type="+type+"&apikey=a20c2297";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -510,6 +514,67 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
     }
 
     private Map<String, String> parseJSONfilm(String search) {
+
+        String url = "https://api.betaseries.com/movies/search?key=0c0daac032e2&v=3.0&title="+search;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("movies");
+                    for(int i = 0 ; jsonArray.length() > i; i++){
+                        JSONObject data = jsonArray.getJSONObject(i);
+                        String title = data.getString("title");
+                        String year = data.getString("release_date");
+                        String imgUrl = data.getString("poster");
+                        String imdbID = data.getString("imdb_id");
+                        String idYoutube = data.getString("trailer");
+                        mExampleList.add(new Video(title, year, imgUrl, imdbID, idYoutube));
+                    }
+
+                    if(mExampleList.size() == 0){
+                        aucun.setVisibility(View.VISIBLE);
+                        ViewGroup.LayoutParams params1=aucun.getLayoutParams();
+                        params1.height=ancienneHauteurAucun;
+                        aucun.setLayoutParams(params1);
+                    }else {
+                        aucun.setVisibility(View.INVISIBLE);
+                        ViewGroup.LayoutParams params1 = aucun.getLayoutParams();
+                        params1.height = 0;
+                        aucun.setLayoutParams(params1);
+                    }
+
+                    mExampleAdapter = new TypeAdapter(ApiManager.this, mExampleList);
+                    mRecyclerView.setAdapter(mExampleAdapter);
+                    mExampleAdapter.setOnItemClickListener(ApiManager.this);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("x-rapidapi-host", "deezerdevs-deezer.p.rapidapi.com");
+                params.put("x-rapidapi-key", "e057a6cddamshcf40c6b8e5a6046p1233eajsnf273df986993");
+
+                return params;
+            }
+        };
+
+        mRequestQueue.add(request);
+        return null;
+    }
+
+    private Map<String, String> parseJSONserie(String search) {
 
         String url = "https://api.betaseries.com/movies/search?key=0c0daac032e2&v=3.0&title="+search;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

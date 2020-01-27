@@ -11,6 +11,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -54,6 +55,7 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("testest", "load page principale");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_principale);
         Toolbar toolbar = findViewById(R.id.toolbar);
