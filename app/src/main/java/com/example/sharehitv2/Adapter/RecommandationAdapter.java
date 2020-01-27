@@ -485,7 +485,10 @@ public class RecommandationAdapter extends
                     link="https://www.deezer.com/fr/album/"+recommandation.getId();
                 }else if (recommandation.getType().equals("artist")){
                     link="https://www.deezer.com/fr/artist/"+recommandation.getId();
-                } else{
+                }else if (recommandation.getType().equals("game")){
+                    link=recommandation.getId();
+                }
+                else{
                     link="https://www.imdb.com/title/"+recommandation.getId();
                 }
                 Intent viewIntent =

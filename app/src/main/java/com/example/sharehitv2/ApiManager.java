@@ -156,11 +156,11 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
                     typeRecom="movie";
                 }
                 if(type == 5) {
-                    parseJSONomdb(query, "series");
+                    parseJSONserie(query);
                     typeRecom="serie";
                 }
                 if(type == 6) {
-                    parseJSONomdb(query,"game");
+                    parseJSONjeu(query);
                     typeRecom="game";
                 }
 
@@ -574,22 +574,23 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         return null;
     }
 
-    private Map<String, String> parseJSONserie(String search) {
+    private Map<String, String> parseJSONjeu(String search) {
 
-        String url = "https://api.betaseries.com/movies/search?key=0c0daac032e2&v=3.0&title="+search;
+        String url = "https://www.giantbomb.com/api/search/?api_key=2d29fc0a0a5b099941aa22e519c0fe4c72a1c1f7&format=json&query="+search+"&resources=game";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonArray = response.getJSONArray("movies");
+                    JSONArray jsonArray = response.getJSONArray("results");
                     for(int i = 0 ; jsonArray.length() > i; i++){
                         JSONObject data = jsonArray.getJSONObject(i);
-                        String title = data.getString("title");
-                        String year = data.getString("release_date");
-                        String imgUrl = data.getString("poster");
-                        String imdbID = data.getString("imdb_id");
-                        String idYoutube = data.getString("trailer");
-                        mExampleList.add(new Video(title, year, imgUrl, imdbID, idYoutube));
+                        String title = data.getString("name");
+                        String year = data.getString("expected_release_year");
+                        JSONObject images = data.getJSONObject("image");
+                        String imgUrl = images.getString("original_url");
+                        String imdbID = data.getString("site_detail_url");
+                        //String idYoutube = data.getString("video");
+                        mExampleList.add(new Video(title, year, imgUrl, imdbID, "null"));
                     }
 
                     if(mExampleList.size() == 0){
@@ -616,6 +617,70 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }
+
+        ) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("x-rapidapi-host", "deezerdevs-deezer.p.rapidapi.com");
+                params.put("x-rapidapi-key", "e057a6cddamshcf40c6b8e5a6046p1233eajsnf273df986993");
+
+                return params;
+            }
+        };
+
+        mRequestQueue.add(request);
+        return null;
+    }
+
+    private Map<String, String> parseJSONserie(String search) {
+
+        String url = "https://api.betaseries.com/shows/search?key=0c0daac032e2&v=3.0&title="+search;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("shows");
+                    for(int i = 0 ; jsonArray.length() > i; i++){
+                        JSONObject data = jsonArray.getJSONObject(i);
+                        String title = data.getString("title");
+                        String year = data.getString("creation");
+                        JSONObject images = data.getJSONObject("images");
+                        String imgUrl = images.getString("poster");
+                        String imdbID = data.getString("imdb_id");
+                        String idYoutube = data.getString("next_trailer");
+                        mExampleList.add(new Video(title, year, imgUrl, imdbID, idYoutube));
+                        Log.e("researchAPI", "inside");
+                    }
+
+                    if(mExampleList.size() == 0){
+                        aucun.setVisibility(View.VISIBLE);
+                        ViewGroup.LayoutParams params1=aucun.getLayoutParams();
+                        params1.height=ancienneHauteurAucun;
+                        aucun.setLayoutParams(params1);
+                    }else {
+                        aucun.setVisibility(View.INVISIBLE);
+                        ViewGroup.LayoutParams params1 = aucun.getLayoutParams();
+                        params1.height = 0;
+                        aucun.setLayoutParams(params1);
+                    }
+
+                    mExampleAdapter = new TypeAdapter(ApiManager.this, mExampleList);
+                    mRecyclerView.setAdapter(mExampleAdapter);
+                    mExampleAdapter.setOnItemClickListener(ApiManager.this);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("researchAPI", "erreur : "+error);
                 error.printStackTrace();
             }
         }
