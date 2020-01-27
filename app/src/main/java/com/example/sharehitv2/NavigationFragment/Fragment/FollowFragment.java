@@ -51,15 +51,6 @@ public class FollowFragment extends Fragment {
     private FirebaseAuth mAuth;
     private String current_user_id;
     public boolean CURRENT_LIKE, CURRENT_BOOK, test=false;
-    private final static MediaPlayer mp = new MediaPlayer();
-    private ProgressBar mSeekBarPlayer;
-    private ImageButton stop;
-    private ImageButton btnPause;
-    private LinearLayout lecteur;
-    private TextView nameLect;
-    private ImageView musicImg;
-
-    private Animation buttonClick;
 
     private RecommandationAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
@@ -69,11 +60,6 @@ public class FollowFragment extends Fragment {
     private boolean isFollow;
     private List<String> userFollow;
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mp.pause();
-    }
 
     @Nullable
     @Override
@@ -103,27 +89,11 @@ public class FollowFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-
-        buttonClick = AnimationUtils.loadAnimation(getContext(), R.anim.click);
-
         mAuth = FirebaseAuth.getInstance();
         current_user_id = mAuth.getCurrentUser().getUid();
         recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
         followRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("followed");
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-
-        lecteur = root.findViewById(R.id.lecteur);
-        stop = root.findViewById(R.id.button1);
-        btnPause = root.findViewById(R.id.button2);
-        mSeekBarPlayer = root.findViewById(R.id.progressBar);
-        nameLect = root.findViewById(R.id.nameLect);
-        musicImg = root.findViewById(R.id.musicImg);
-
-        lecteur.setVisibility(View.INVISIBLE);
-
-        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-        params.height=0;
-        lecteur.setLayoutParams(params);
 
         chargerListFollow();
 
@@ -205,22 +175,6 @@ public class FollowFragment extends Fragment {
         return false;
     }
 
-    private Runnable onEverySecond = new Runnable() {
-        @Override
-        public void run(){
-            if(mp != null) {
-                mSeekBarPlayer.setProgress(mp.getCurrentPosition());
-            }
-
-            if(mp.isPlaying()) {
-                btnPause.setImageResource(R.drawable.ic_pause);
-                mSeekBarPlayer.postDelayed(onEverySecond, 100);
-            }else{
-                btnPause.setImageResource(R.drawable.ic_play);
-            }
-        }
-    };
-
     public List<Recommandation> chargerListRecommandation(){
         final List<Recommandation> list = new ArrayList<>();
         recosRef.addValueEventListener(new ValueEventListener() {
@@ -266,20 +220,6 @@ public class FollowFragment extends Fragment {
 
             }
         });
-        /*
-        recosRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                chargerRecyclerView(list);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-         */
         return list;
 
     }

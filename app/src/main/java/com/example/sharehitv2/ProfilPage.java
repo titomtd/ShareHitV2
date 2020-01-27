@@ -55,7 +55,7 @@ import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfilPage extends AppCompatActivity implements RecommandationAdapter.MediaListener{
+public class ProfilPage extends AppCompatActivity implements RecommandationAdapter.MediaListener {
 
     private CircleImageView pdp;
     private TextView pseudo, textView;
@@ -378,19 +378,150 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         return (sb.toString());
     }
 
+    private Runnable onEverySecond = new Runnable() {
+        @Override
+        public void run(){
+            if(mp != null) {
+                mSeekBarPlayer.setProgress(mp.getCurrentPosition());
+            }
+
+            if(mp.isPlaying()) {
+                btnPause.setImageResource(R.drawable.ic_pause);
+                mSeekBarPlayer.postDelayed(onEverySecond, 100);
+            }else{
+                btnPause.setImageResource(R.drawable.ic_play);
+            }
+        }
+    };
 
     @Override
-    public void lancerMusique(Recommandation recommandation) {
-        
+    public void lancerMusique(Recommandation model) {
+        mp.seekTo(mp.getDuration());
+        mp.reset();
+        if (lecteur.getVisibility()==View.INVISIBLE) {
+            lecteur.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+            params.height = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
+            lecteur.setLayoutParams(params);
+        }
+        try{
+            Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
+        }
+        catch (IOException ex){
+            Log.e("testest", "Can't found data:"+model.getUrlPreview());
+        }
+
+
+        if(model.getType().equals("track"))
+            nameLect.setText(model.getTrack());
+        else if(model.getType().equals("artist"))
+            nameLect.setText(model.getArtist());
+        else if(model.getType().equals("album"))
+            nameLect.setText(model.getAlbum());
+                        /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
+                        recosViewHolder.player.setVisibility(View.VISIBLE);*/
+
+
+        Picasso.with(getApplicationContext()).load(model.getUrlImage()).fit().centerInside().into(musicImg);
+        mp.prepareAsync();
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                int duration = mp.getDuration();
+                mSeekBarPlayer.setMax(duration);
+                mp.start();
+                mSeekBarPlayer.postDelayed(onEverySecond, 500);
+            }
+        });
+
+        //recosViewHolder.playButton.startAnimation(buttonClick);
+
+        stop.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mp.stop();
+                mp.reset();
+                lecteur.setVisibility(View.INVISIBLE);
+
+
+
+                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
+                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+                params.height=0;
+                lecteur.setLayoutParams(params);
+            }
+        });
+
+
+        btnPause.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                if (mp.isPlaying()) {
+                    mp.pause();
+                    btnPause.setImageResource(R.drawable.ic_play);
+                                    /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                    recosViewHolder.playButton.setImageResource(R.drawable.ic_pause);
+                                    recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                }
+                else {
+                    btnPause.setImageResource(R.drawable.ic_pause);
+                                    /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
+                                    recosViewHolder.player.setVisibility(View.VISIBLE);*/
+                    try {
+                        mp.prepare();
+                    } catch (IllegalStateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    mp.start();
+                    mSeekBarPlayer.postDelayed(onEverySecond, 1000);
+                }
+
+            }
+        });
     }
 
     @Override
     public void lancerVideo(Recommandation recommandation) {
-
+        if(!recommandation.getUrlPreview().equals("")){
+            AlertDialog.Builder builder = new AlertDialog.Builder(ProfilPage.this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_video, null);
+            final WebView webView = dialogView.findViewById(R.id.webview);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+            webView.loadUrl("https://www.youtube.com/embed/"+recommandation.getUrlPreview());
+            //webView.loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/rrwycJ08PSA\" frameborder=\"0\" allow=\"autoplay\" allowfullscreen></iframe>", "text/html", "utf-8");
+            webView.setWebChromeClient(new WebChromeClient());
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if(recommandation.getType().equals("game")){
+            Toast.makeText(getApplicationContext(), "Les bandes annonces pour les jeux vidéos arrivent prochainement", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Aucune bande annonce pour cette recommandation", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void stop() {
-
+        mp.stop();
+        mp.stop();
+        mp.reset();
+        lecteur.setVisibility(View.INVISIBLE);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        params.height=0;
+        lecteur.setLayoutParams(params);
     }
 }

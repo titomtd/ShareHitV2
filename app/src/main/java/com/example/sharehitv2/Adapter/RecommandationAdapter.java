@@ -73,6 +73,7 @@ public class RecommandationAdapter extends
         LayoutInflater inflater = LayoutInflater.from(context);
 
         mediaListener = (MediaListener) context;
+        Log.e("Context_name", ""+context);
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         buttonClick = AnimationUtils.loadAnimation(context, R.anim.click);

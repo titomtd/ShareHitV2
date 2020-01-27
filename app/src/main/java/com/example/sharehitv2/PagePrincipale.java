@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.FeedPageFragment;
 import com.example.sharehitv2.NavigationFragment.MyProfilFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -121,31 +122,37 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
 
     @Override
     public void lancerMusique(Recommandation recommandation) {
-
-    }
-
-    public Fragment getVisibleFragment(){
-        FragmentManager fragmentManager = this.getSupportFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
-        for(Fragment fragment : fragments){
-            if(fragment != null && fragment.getUserVisibleHint())
-                return fragment;
+        Fragment navHostFragment = getSupportFragmentManager().getPrimaryNavigationFragment();
+        Fragment fragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
+        if(fragment instanceof MyProfilFragment){
+            ((MyProfilFragment) fragment).lancerMusique(recommandation);
         }
-        return null;
+        if(fragment instanceof FeedPageFragment){
+            ((FeedPageFragment) fragment).lancerMusique(recommandation);
+        }
     }
 
     @Override
     public void lancerVideo(Recommandation recommandation) {
-        if(getVisibleFragment() instanceof MyProfilFragment){
-            ((MyProfilFragment) getVisibleFragment()).lancerVideo(recommandation);
+        Fragment navHostFragment = getSupportFragmentManager().getPrimaryNavigationFragment();
+        Fragment fragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
+        Log.e("MediaListener", ""+fragment);
+        if(fragment instanceof MyProfilFragment){
+            ((MyProfilFragment) fragment).lancerVideo(recommandation);
         }
-
+        if(fragment instanceof FeedPageFragment){
+            ((FeedPageFragment) fragment).lancerVideo(recommandation);
+        }
 
     }
 
     @Override
     public void stop() {
-
+        Fragment navHostFragment = getSupportFragmentManager().getPrimaryNavigationFragment();
+        Fragment fragment = navHostFragment.getChildFragmentManager().getFragments().get(0);
+        if(fragment instanceof MyProfilFragment){
+            ((MyProfilFragment) fragment).stop();
+        }
     }
 
 }

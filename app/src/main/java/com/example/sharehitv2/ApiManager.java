@@ -245,8 +245,8 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         if(tracklist.endsWith("50"))
         {
             tracklist = tracklist.substring(0,tracklist.length() - 2);
-        tracklist+="1";
-    }
+            tracklist+="1";
+        }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, tracklist, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -482,9 +482,9 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
                         aucun.setLayoutParams(params1);
                     }
 
-                        mExampleAdapter = new TypeAdapter(ApiManager.this, mExampleList);
-                        mRecyclerView.setAdapter(mExampleAdapter);
-                        mExampleAdapter.setOnItemClickListener(ApiManager.this);
+                    mExampleAdapter = new TypeAdapter(ApiManager.this, mExampleList);
+                    mRecyclerView.setAdapter(mExampleAdapter);
+                    mExampleAdapter.setOnItemClickListener(ApiManager.this);
 
 
                 } catch (JSONException e) {
@@ -726,7 +726,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
 
     public void lancerMusique(Type model){
         //if (model instanceof Morceau) {
-            //Morceau son = (Morceau) model;
+        //Morceau son = (Morceau) model;
         /*}else if (model instanceof Artist) {
             Artist son = (Artist) model;
         }else if (model instanceof Album) {

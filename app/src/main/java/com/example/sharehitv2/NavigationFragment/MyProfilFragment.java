@@ -1,6 +1,7 @@
 package com.example.sharehitv2.NavigationFragment;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -11,6 +12,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,6 +63,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -457,9 +460,118 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public void lancerMusique(Recommandation recommandation) {
+    private Runnable onEverySecond = new Runnable() {
+        @Override
+        public void run(){
+            if(mp != null) {
+                mSeekBarPlayer.setProgress(mp.getCurrentPosition());
+            }
 
+            if(mp.isPlaying()) {
+                btnPause.setImageResource(R.drawable.ic_pause);
+                mSeekBarPlayer.postDelayed(onEverySecond, 100);
+            }else{
+                btnPause.setImageResource(R.drawable.ic_play);
+            }
+        }
+    };
+
+    @Override
+    public void lancerMusique(Recommandation model) {
+        mp.seekTo(mp.getDuration());
+        mp.reset();
+        if (lecteur.getVisibility()==View.INVISIBLE) {
+            lecteur.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+            params.height = ActionBar.LayoutParams.WRAP_CONTENT;
+            lecteur.setLayoutParams(params);
+        }
+        try{
+            Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
+        }
+        catch (IOException ex){
+            Log.e("testest", "Can't found data:"+model.getUrlPreview());
+        }
+
+
+        if(model.getType().equals("track"))
+            nameLect.setText(model.getTrack());
+        else if(model.getType().equals("artist"))
+            nameLect.setText(model.getArtist());
+        else if(model.getType().equals("album"))
+            nameLect.setText(model.getAlbum());
+                        /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
+                        recosViewHolder.player.setVisibility(View.VISIBLE);*/
+
+
+        Picasso.with(getContext()).load(model.getUrlImage()).fit().centerInside().into(musicImg);
+        mp.prepareAsync();
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                int duration = mp.getDuration();
+                mSeekBarPlayer.setMax(duration);
+                mp.start();
+                mSeekBarPlayer.postDelayed(onEverySecond, 500);
+            }
+        });
+
+        //recosViewHolder.playButton.startAnimation(buttonClick);
+
+        stop.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mp.stop();
+                mp.reset();
+                lecteur.setVisibility(View.INVISIBLE);
+
+
+
+                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
+                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+                params.height=0;
+                lecteur.setLayoutParams(params);
+            }
+        });
+
+
+        btnPause.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                if (mp.isPlaying()) {
+                    mp.pause();
+                    btnPause.setImageResource(R.drawable.ic_play);
+                                    /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                    recosViewHolder.playButton.setImageResource(R.drawable.ic_pause);
+                                    recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                }
+                else {
+                    btnPause.setImageResource(R.drawable.ic_pause);
+                                    /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
+                                    recosViewHolder.player.setVisibility(View.VISIBLE);*/
+                    try {
+                        mp.prepare();
+                    } catch (IllegalStateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    mp.start();
+                    mSeekBarPlayer.postDelayed(onEverySecond, 1000);
+                }
+
+            }
+        });
     }
 
     @Override
@@ -486,6 +598,18 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
 
     @Override
     public void stop() {
+        mp.stop();
+        mp.stop();
+        mp.reset();
+        lecteur.setVisibility(View.INVISIBLE);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        params.height=0;
+        lecteur.setLayoutParams(params);
+    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        stop();
     }
 }

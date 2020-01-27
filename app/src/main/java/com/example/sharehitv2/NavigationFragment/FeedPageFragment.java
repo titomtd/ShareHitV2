@@ -1,5 +1,7 @@
 package com.example.sharehitv2.NavigationFragment;
 
+import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,18 +20,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.sharehitv2.Adapter.RecommandationAdapter;
 import com.example.sharehitv2.ApiManager;
 import com.example.sharehitv2.Model.Recommandation;
 import com.example.sharehitv2.NavigationFragment.Fragment.FeedFragment;
@@ -42,6 +51,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.luseen.spacenavigation.SpaceItem;
 import com.luseen.spacenavigation.SpaceNavigationView;
 import com.luseen.spacenavigation.SpaceOnClickListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -51,7 +61,7 @@ import java.net.URL;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FeedPageFragment extends Fragment {
+public class FeedPageFragment extends Fragment implements RecommandationAdapter.MediaListener {
 
     SpaceNavigationView navigationView;
     FirebaseAuth firebaseAuth;
@@ -80,6 +90,14 @@ public class FeedPageFragment extends Fragment {
     String NOTIFICATION_MESSAGE;
     String TOPIC;
 
+    private final static MediaPlayer mp = new MediaPlayer();
+
+    private ProgressBar mSeekBarPlayer;
+    private ImageButton stop;
+    private ImageButton btnPause;
+    private LinearLayout lecteur;
+    private TextView nameLect;
+    private ImageView musicImg;
 
 
     @Override
@@ -142,8 +160,17 @@ public class FeedPageFragment extends Fragment {
         //navigationView.showIconOnly();
 
 
+        lecteur = root.findViewById(R.id.lecteur);
+        stop = root.findViewById(R.id.button1);
+        btnPause = root.findViewById(R.id.button2);
+        mSeekBarPlayer = root.findViewById(R.id.progressBar);
+        nameLect = root.findViewById(R.id.nameLect);
+        musicImg = root.findViewById(R.id.musicImg);
 
-
+        lecteur.setVisibility(View.INVISIBLE);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        params.height=0;
+        lecteur.setLayoutParams(params);
 
 
         final Dialog d = new Dialog(getContext(), R.style.DialogTheme);
@@ -282,9 +309,158 @@ public class FeedPageFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private Runnable onEverySecond = new Runnable() {
+        @Override
+        public void run(){
+            if(mp != null) {
+                mSeekBarPlayer.setProgress(mp.getCurrentPosition());
+            }
+
+            if(mp.isPlaying()) {
+                btnPause.setImageResource(R.drawable.ic_pause);
+                mSeekBarPlayer.postDelayed(onEverySecond, 100);
+            }else{
+                btnPause.setImageResource(R.drawable.ic_play);
+            }
+        }
+    };
+
+
+    @Override
+    public void lancerMusique(Recommandation model) {
+        mp.seekTo(mp.getDuration());
+        mp.reset();
+        if (lecteur.getVisibility()==View.INVISIBLE) {
+            lecteur.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+            params.height = ActionBar.LayoutParams.WRAP_CONTENT;
+            lecteur.setLayoutParams(params);
+        }
+        try{
+            Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
+        }
+        catch (IOException ex){
+            Log.e("testest", "Can't found data:"+model.getUrlPreview());
+        }
+
+
+        if(model.getType().equals("track"))
+            nameLect.setText(model.getTrack());
+        else if(model.getType().equals("artist"))
+            nameLect.setText(model.getArtist());
+        else if(model.getType().equals("album"))
+            nameLect.setText(model.getAlbum());
+                        /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
+                        recosViewHolder.player.setVisibility(View.VISIBLE);*/
+
+
+        Picasso.with(getContext()).load(model.getUrlImage()).fit().centerInside().into(musicImg);
+        mp.prepareAsync();
+        mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                int duration = mp.getDuration();
+                mSeekBarPlayer.setMax(duration);
+                mp.start();
+                mSeekBarPlayer.postDelayed(onEverySecond, 500);
+            }
+        });
+
+        //recosViewHolder.playButton.startAnimation(buttonClick);
+
+        stop.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mp.stop();
+                mp.reset();
+                lecteur.setVisibility(View.INVISIBLE);
 
 
 
+                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
+                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+                params.height=0;
+                lecteur.setLayoutParams(params);
+            }
+        });
 
 
+        btnPause.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                if (mp.isPlaying()) {
+                    mp.pause();
+                    btnPause.setImageResource(R.drawable.ic_play);
+                                    /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                    recosViewHolder.playButton.setImageResource(R.drawable.ic_pause);
+                                    recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                }
+                else {
+                    btnPause.setImageResource(R.drawable.ic_pause);
+                                    /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
+                                    recosViewHolder.player.setVisibility(View.VISIBLE);*/
+                    try {
+                        mp.prepare();
+                    } catch (IllegalStateException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    mp.start();
+                    mSeekBarPlayer.postDelayed(onEverySecond, 1000);
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public void lancerVideo(Recommandation recommandation) {
+        if(!recommandation.getUrlPreview().equals("")){
+            stop();
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_video, null);
+            final WebView webView = dialogView.findViewById(R.id.webview);
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setPluginState(WebSettings.PluginState.ON);
+            webView.loadUrl("https://www.youtube.com/embed/"+recommandation.getUrlPreview());
+            //webView.loadData("<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/rrwycJ08PSA\" frameborder=\"0\" allow=\"autoplay\" allowfullscreen></iframe>", "text/html", "utf-8");
+            webView.setWebChromeClient(new WebChromeClient());
+            builder.setView(dialogView);
+            final AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if(recommandation.getType().equals("game")){
+            Toast.makeText(getContext(), "Les bandes annonces pour les jeux vidéos arrivent prochainement", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "Aucune bande annonce pour cette recommandation", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void stop() {
+        mp.stop();
+        mp.stop();
+        mp.reset();
+        lecteur.setVisibility(View.INVISIBLE);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        params.height=0;
+        lecteur.setLayoutParams(params);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        stop();
+    }
 }
