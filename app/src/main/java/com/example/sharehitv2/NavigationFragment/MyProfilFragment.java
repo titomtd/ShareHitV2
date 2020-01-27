@@ -576,7 +576,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
 
     @Override
     public void lancerVideo(Recommandation recommandation) {
-        if(!recommandation.getUrlPreview().equals("")){
+        if(!recommandation.getUrlPreview().equals("") && !recommandation.getUrlPreview().equals("null")){
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             LayoutInflater inflater = getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.dialog_video, null);

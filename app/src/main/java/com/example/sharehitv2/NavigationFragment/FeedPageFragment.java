@@ -426,7 +426,7 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
 
     @Override
     public void lancerVideo(Recommandation recommandation) {
-        if(!recommandation.getUrlPreview().equals("")){
+        if(!recommandation.getUrlPreview().equals("") && !recommandation.getUrlPreview().equals("null")){
             stop();
             android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getContext());
             LayoutInflater inflater = getLayoutInflater();
