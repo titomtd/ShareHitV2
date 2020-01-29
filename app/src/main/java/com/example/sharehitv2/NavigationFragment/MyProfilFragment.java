@@ -205,7 +205,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
             @Override
             public void onClick(View v) {
 
-                String options[] = {"Changer de photo de profil","Changer de pseudo", "Se déconnecter", };
+                String options[] = {"Changer de photo de profil","Changer de pseudo"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Paramètres");
                 builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -219,28 +219,13 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
                                 pickFromGallery();
                             }
                         }
-                        else if (which==1){
+                        else if (which==1) {
                             pd.setMessage("Chargement...");
                             showNameUpdateDialog();
-                        } else if (which == 2){
-                            pd.setMessage("Se déconnecter");
-                            firebaseAuth.signOut();
-                            startActivity(new Intent(getActivity(), LoginPage.class));
                         }
                     }
                 });
                 builder.create().show();
-
-
-
-
-                /*
-
-                Intent intent = YouTubeStandalonePlayer.createVideoIntent(getActivity(), "AIzaSyBYORHRvvvzDdhukXCf24orxzFXhoIURr8", "aJ7BoNG-r2c", 0, true, false);
-                startActivity(intent);
-
-                 */
-
 
             }
         });

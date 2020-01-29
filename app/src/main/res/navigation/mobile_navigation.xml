@@ -31,7 +31,7 @@
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="com.example.sharehitv2.NavigationFragment.share.ShareFragment"
+        android:name="com.example.sharehitv2.NavigationFragment.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_share" />
 

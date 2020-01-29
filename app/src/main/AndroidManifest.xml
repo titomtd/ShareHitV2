@@ -22,9 +22,6 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".PagePrincipale" /></activity>
         <activity android:name=".CommentPage" ></activity>
-        <activity android:name=".NavigationFragment.ProfilFragment" />
-        <activity android:name=".NavigationFragment.CommentFragment" />
-        <activity android:name=".NavigationFragment.ListLikeFragment" />
         <activity android:name=".Authentification.PasswordForgetPage" />
         <activity android:name=".Authentification.SignUpPage" />
         <activity android:name=".Authentification.LoginPage" />
