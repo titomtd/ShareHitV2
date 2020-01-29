@@ -19,14 +19,16 @@
         <requestFocus />
     </SearchView>
 
+
+
+
     <RelativeLayout
         android:id="@+id/aucunResultatProfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/searchProfilBar"
         android:background="@drawable/rectangle"
-        android:visibility="invisible">
-
+        android:layout_marginTop="10dp">
         <TextView
             android:id="@+id/textView10"
             android:layout_width="wrap_content"
@@ -42,7 +44,8 @@
             android:layout_marginRight="0dp"
             android:gravity="center"
             android:text="Aucun résultat"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
+
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView

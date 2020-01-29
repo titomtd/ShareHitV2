@@ -148,6 +148,8 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
+
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
@@ -524,4 +526,6 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         params.height=0;
         lecteur.setLayoutParams(params);
     }
+
+
 }

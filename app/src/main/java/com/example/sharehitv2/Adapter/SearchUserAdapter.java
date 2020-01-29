@@ -1,6 +1,8 @@
 package com.example.sharehitv2.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharehitv2.Model.User;
+import com.example.sharehitv2.ProfilPage;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +31,7 @@ public class SearchUserAdapter extends
     Context context;
     private List<User> mUser;
     private StorageReference mStorageRef;
+
 
     public SearchUserAdapter(List<User> users) {
         this.mUser = users;
@@ -49,6 +53,9 @@ public class SearchUserAdapter extends
         final User user = mUser.get(position);
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
+        final Bundle b = new Bundle();
+        final Intent intent3 = new Intent(context, ProfilPage.class);
+
         holder.pseudoProfil.setText(user.getPseudo());
         final StorageReference filepath = mStorageRef;
         filepath.child(user.getUserId()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
@@ -61,6 +68,23 @@ public class SearchUserAdapter extends
             public void onFailure(@NonNull Exception exception) {
                 //Picasso.with(context).load("").fit().centerInside().into(viewHolder.getImgProfil());
                 holder.imageProfil.setImageResource(R.drawable.default_profile_picture);
+            }
+        });
+
+        holder.imageProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.putString("key", user.userId);
+                intent3.putExtras(b);
+                context.startActivity(intent3);
+            }
+        });
+        holder.pseudoProfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.putString("key", user.userId);
+                intent3.putExtras(b);
+                context.startActivity(intent3);
             }
         });
     }

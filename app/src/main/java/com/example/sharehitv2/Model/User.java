@@ -2,18 +2,20 @@ package com.example.sharehitv2.Model;
 
 public class User {
 
-    public String pseudo, userId;
+    public String pseudo,pseudo_lower, userId;
 
 
     public User(){
     }
 
-    public User(String pseudo) {
+    public User(String pseudo, String pseudo_lower) {
         this.pseudo = pseudo;
+        this.pseudo_lower = pseudo_lower;
     }
 
-    public User(String pseudo, String userId) {
+    public User(String pseudo, String pseudo_lower, String userId) {
         this.pseudo = pseudo;
+        this.pseudo_lower = pseudo_lower;
         this.userId = userId;
     }
 

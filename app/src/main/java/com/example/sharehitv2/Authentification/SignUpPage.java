@@ -92,7 +92,8 @@ public class SignUpPage extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                                         if(task.isSuccessful()){
                                                             User user = new User(
-                                                                    pseudo
+                                                                    pseudo,
+                                                                    pseudo.toLowerCase()
                                                             );
                                                             String userUID = mAuth.getCurrentUser().getUid();
                                                             HashMap usersMap = new HashMap();
