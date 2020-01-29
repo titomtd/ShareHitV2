@@ -322,6 +322,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
                         //pd.show();
                         HashMap reslt = new HashMap();
                         reslt.put("pseudo", value);
+                        reslt.put("pseudo_lower", value.toLowerCase());
                         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users").child(user.getUid());
                         usersRef.updateChildren(reslt);
                     } else {

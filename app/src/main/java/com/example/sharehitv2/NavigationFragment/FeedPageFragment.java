@@ -116,9 +116,9 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
             //getSupportFragmentManager().beginTransaction().replace(id.container, fragment).commit();
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             if(left==true){
-                transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_left);
+                //transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_left, R.anim.enter_from_left, R.anim.exit_to_left);
             }else {
-                transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right );
+                //transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right );
             }
             transaction.replace(R.id.container, fragment);
             transaction.addToBackStack("test");
