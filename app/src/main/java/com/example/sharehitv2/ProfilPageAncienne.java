@@ -1,35 +1,16 @@
 package com.example.sharehitv2;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.graphics.Color;
-import android.media.MediaPlayer;
-import android.os.Bundle;
-
-import com.example.sharehitv2.Adapter.RecommandationAdapter;
-import com.example.sharehitv2.Model.Recommandation;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ServerValue;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +28,23 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharehitv2.Adapter.RecommandationAdapter;
+import com.example.sharehitv2.Model.Recommandation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,15 +52,16 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfilPage extends AppCompatActivity implements RecommandationAdapter.MediaListener {
+public class ProfilPageAncienne extends AppCompatActivity implements RecommandationAdapter.MediaListener {
 
     private CircleImageView pdp;
     private TextView pseudo, textView;
     private RecyclerView post;
-    private FloatingActionButton follow;
+    private Button follow;
     private TextView nbrAbonnement;
 
     private DatabaseReference recosRef, usersRef;
@@ -93,40 +92,14 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
     private StorageReference mStorageRef;
 
 
-    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Bundle b = getIntent().getExtras();
-        final String[] s = {""};
-
-        userId = b.getString("key");
-
-        mAuth = FirebaseAuth.getInstance();
-        recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
-        usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-
-        usersRef.child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    s[0] = dataSnapshot.child("pseudo").getValue().toString();
-                } else {
-                    s[0] = "Compte supprimé";
-                    follow.setEnabled(false);
-                    follow.setVisibility(View.INVISIBLE);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-
-        setContentView(R.layout.activity_profil_page);
-
+        setContentView(R.layout.activity_profil_page_ancienne);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerProfilPage);
         post = (RecyclerView) findViewById(R.id.postProfilPageRecyclerView);
-        follow = (FloatingActionButton) findViewById(R.id.follow);
+        nbrAbonnement = (TextView) findViewById(R.id.nbrAbonnement);
 
         CURRENT_FOLLOW = false;
         isCharged = true;
@@ -165,19 +138,62 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         params.height=0;
         lecteur.setLayoutParams(params);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        mAuth = FirebaseAuth.getInstance();
+        recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
+        usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        toolbar.setTitle(s[0]);
+        pdp = (CircleImageView) findViewById(R.id.pdpProfilPage);
+        pseudo = (TextView) findViewById(R.id.pseudoProfilPage);
+        follow = (Button) findViewById(R.id.followProfilPage);
+        textView = (TextView) findViewById(R.id.textView8);
 
-        setSupportActionBar(toolbar);
+
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
         post.setLayoutManager(layoutManager);
+
+        final Bundle b = getIntent().getExtras();
+
+        if (mAuth.getCurrentUser().getUid().equals(b.getString("key"))) {
+            follow.setVisibility(View.INVISIBLE);
+            textView.setText("Mes recommandations");
+        }
+
+        usersRef.child(b.getString("key")).child("followed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() <= 1){
+                    nbrAbonnement.setText(dataSnapshot.getChildrenCount() + " abonnement");
+                } else {
+                    nbrAbonnement.setText(dataSnapshot.getChildrenCount() + " abonnements");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        nbrAbonnement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListFollowPage.class);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
+        userId = b.getString("key");
 
         usersRef.child(mAuth.getCurrentUser().getUid()).child("followed").addValueEventListener(new ValueEventListener() {
             @Override
@@ -186,8 +202,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
                     if (ds.getValue().equals(b.getString("key"))) {
                         CURRENT_FOLLOW = true;
                         keyFollowed = ds.getRef().getKey();
-                        follow.setBackgroundTintList(getResources().getColorStateList(R.color.white));
-                        follow.setImageDrawable(getResources().getDrawable(R.drawable.follow_valid));
+                        follow.setText("Ne plus suivre");
                     }
                 }
 
@@ -223,26 +238,65 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
                         }
                     });
-                    follow.setBackgroundTintList(getResources().getColorStateList(R.color.white));
-                    follow.setImageDrawable(getResources().getDrawable(R.drawable.follow_valid));
+                    follow.setText("Ne plus suivre");
                     CURRENT_FOLLOW = true;
 
                 } else if (CURRENT_FOLLOW == true) {
                     usersRef.child(mAuth.getCurrentUser().getUid()).child("followed").child(keyFollowed).removeValue();
-                    follow.setBackgroundTintList(getResources().getColorStateList(R.color.colorPrimary));
-                    follow.setImageDrawable(getResources().getDrawable(R.drawable.follow_button));
+                    follow.setText("Suivre");
                     CURRENT_FOLLOW = false;
                 }
             }
         });
 
+        final StorageReference filepath = mStorageRef;
+
+        filepath.child(userId).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+userId+"?alt=media").fit().centerInside().into(pdp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+                pdp.setImageResource(R.drawable.default_profile_picture);
+            }
+        });
+
+        Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+userId+"?alt=media").fit().centerInside().into(pdp);
+        //Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+b.getString("key")+"?alt=media&token=1d93f69f-a530-455a-83d2-929ce42c3667").fit().centerInside().into(pdp);
+
+        usersRef.child(b.getString("key")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    actionBar.setTitle("Profil de "+dataSnapshot.child("pseudo").getValue().toString());
+                    pseudo.setText(dataSnapshot.child("pseudo").getValue().toString());
+                } else {
+                    pseudo.setText("Compte supprimé");
+                    follow.setEnabled(false);
+                    follow.setVisibility(View.INVISIBLE);
 
 
-        if (mAuth.getCurrentUser().getUid().equals(b.getString("key"))) {
-            follow.setVisibility(View.INVISIBLE);
-        }
+
+                    Log.e("Timestamp", String.valueOf(ServerValue.TIMESTAMP));
+                    Date d = new Date();
+
+                    Log.e("Timestamp", String.valueOf(currentTimeSecsUTC()));
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         chargerRecyclerView(chargerListRecommandation());
+
 
 
 
@@ -423,7 +477,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
     @Override
     public void lancerVideo(Recommandation recommandation) {
         if(!recommandation.getUrlPreview().equals("") && !recommandation.getUrlPreview().equals("null")){
-            AlertDialog.Builder builder = new AlertDialog.Builder(ProfilPage.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(ProfilPageAncienne.this);
             LayoutInflater inflater = getLayoutInflater();
             View dialogView = inflater.inflate(R.layout.dialog_video, null);
             final WebView webView = dialogView.findViewById(R.id.webview);
@@ -452,4 +506,6 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         params.height=0;
         lecteur.setLayoutParams(params);
     }
+
+
 }

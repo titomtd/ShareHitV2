@@ -3,16 +3,21 @@ package com.example.sharehitv2.NavigationFragment;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,11 +27,13 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.sharehitv2.Authentification.LoginPage;
+import com.example.sharehitv2.PagePrincipale;
 import com.example.sharehitv2.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class SettingsFragment extends Fragment {
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,24 +44,36 @@ public class SettingsFragment extends Fragment {
                 .replace(R.id.settings, new Settings())
                 .commit();
 
+
+
         return root;
     }
 
     public static class Settings extends PreferenceFragmentCompat {
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+
+
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
 
 
             Preference deconnexion = (Preference) findPreference("signout");
             Preference sombre = (SwitchPreferenceCompat) findPreference("sombre");
             Preference theme = (ListPreference) findPreference("theme");
 
-            sombre.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            sombre.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
-                public boolean onPreferenceClick(Preference preference) {
-                    Toast.makeText(getContext(), "Test", Toast.LENGTH_LONG).show();
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if (newValue == Boolean.TRUE) {
+                        ((SwitchPreferenceCompat) preference).setChecked(true);
 
+                        Toast.makeText(getContext(), "Enabled", Toast.LENGTH_LONG).show();
+                    } else {
+                        ((SwitchPreferenceCompat) preference).setChecked(false);
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        Toast.makeText(getContext(), "Disabled", Toast.LENGTH_LONG).show();
+                    }
                     return false;
                 }
             });
@@ -80,4 +99,5 @@ public class SettingsFragment extends Fragment {
             });
         }
     }
+
 }

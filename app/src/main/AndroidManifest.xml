@@ -17,9 +17,17 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListFollowPage"></activity>
+        <activity
+            android:name=".ProfilPage"
+            android:label="@string/title_activity_profil_page"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Test"
+            android:label="@string/title_activity_test"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ListFollowPage" />
         <activity android:name=".ListLikePage" />
-        <activity android:name=".ProfilPage">
+        <activity android:name=".ProfilPageAncienne">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PagePrincipale" />

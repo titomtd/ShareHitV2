@@ -8,6 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/likeblue</item>
+        <item name="colorPrimaryDark">@color/grisStyle</item>
+        <item name="colorAccent">@color/trans</item>
+    </style>
+
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

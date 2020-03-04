@@ -20,14 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.androidnetworking.model.Progress;
 import com.example.sharehitv2.CommentPage;
 import com.example.sharehitv2.ListLikePage;
 import com.example.sharehitv2.Model.Recommandation;
 import com.example.sharehitv2.ProfilPage;
+import com.example.sharehitv2.ProfilPageAncienne;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

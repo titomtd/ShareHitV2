@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    app:cardCornerRadius="10dp">
+    android:layout_marginTop="10dp">
 
     <LinearLayout
         android:id="@+id/linearLayoutReco"
@@ -122,8 +121,8 @@
                 android:layout_marginEnd="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
-                app:bar_color="@color/white"
-                android:visibility="invisible"/>
+                android:visibility="invisible"
+                app:bar_color="@color/white" />
         </RelativeLayout>
 
 

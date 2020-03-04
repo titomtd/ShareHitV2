@@ -12,12 +12,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.example.sharehitv2.Model.Comment;
 import com.example.sharehitv2.Utilities.DividerItemDecorator;
@@ -143,7 +141,7 @@ public class CommentPage extends AppCompatActivity {
     }
 
     private void displayAllComment() {
-        final Intent intent3 = new Intent(getApplicationContext(), ProfilPage.class);
+        final Intent intent3 = new Intent(getApplicationContext(), ProfilPageAncienne.class);
         final Bundle b = new Bundle();
         FirebaseRecyclerAdapter<Comment, CommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>
                 (

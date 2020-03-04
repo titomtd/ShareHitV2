@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ProfilPage"
+    tools:showIn="@layout/activity_profil_page">
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainerProfilPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/postProfilPageRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.core.widget.NestedScrollView>
