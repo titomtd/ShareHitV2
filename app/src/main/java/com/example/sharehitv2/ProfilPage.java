@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +45,8 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,6 +64,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
     private TextView pseudo, textView;
     private RecyclerView post;
     private Button follow;
+    private TextView nbrAbonnement;
 
     private DatabaseReference recosRef, usersRef;
     private FirebaseAuth mAuth;
@@ -97,6 +101,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerProfilPage);
         post = (RecyclerView) findViewById(R.id.postProfilPageRecyclerView);
+        nbrAbonnement = (TextView) findViewById(R.id.nbrAbonnement);
 
         CURRENT_FOLLOW = false;
         isCharged = true;
@@ -161,6 +166,34 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
             follow.setVisibility(View.INVISIBLE);
             textView.setText("Mes recommandations");
         }
+
+        usersRef.child(b.getString("key")).child("followed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() <= 1){
+                    nbrAbonnement.setText(dataSnapshot.getChildrenCount() + " abonnement");
+                } else {
+                    nbrAbonnement.setText(dataSnapshot.getChildrenCount() + " abonnements");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        nbrAbonnement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListFollowPage.class);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
         userId = b.getString("key");
 

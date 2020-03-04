@@ -17,11 +17,14 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListLikePage"></activity>
-        <activity android:name=".ProfilPage"><meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".PagePrincipale" /></activity>
-        <activity android:name=".CommentPage" ></activity>
+        <activity android:name=".ListFollowPage"></activity>
+        <activity android:name=".ListLikePage" />
+        <activity android:name=".ProfilPage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PagePrincipale" />
+        </activity>
+        <activity android:name=".CommentPage" />
         <activity android:name=".Authentification.PasswordForgetPage" />
         <activity android:name=".Authentification.SignUpPage" />
         <activity android:name=".Authentification.LoginPage" />

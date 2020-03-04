@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -15,8 +16,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
 
 import com.example.sharehitv2.Authentification.LoginPage;
 import com.example.sharehitv2.R;
@@ -43,8 +46,21 @@ public class SettingsFragment extends Fragment {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
 
+            Preference deconnexion = (Preference) findPreference("signout");
+            Preference sombre = (SwitchPreferenceCompat) findPreference("sombre");
+            Preference theme = (ListPreference) findPreference("theme");
 
-            Preference deconnexion = findPreference("signout");
+            sombre.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Toast.makeText(getContext(), "Test", Toast.LENGTH_LONG).show();
+
+                    return false;
+                }
+            });
+
+
+
             deconnexion.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
