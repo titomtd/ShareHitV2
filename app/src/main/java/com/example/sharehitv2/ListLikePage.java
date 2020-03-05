@@ -81,7 +81,7 @@ public class ListLikePage extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if(dataSnapshot.exists()){
-                                User user = new User(dataSnapshot.child("pseudo").getValue().toString(),dataSnapshot.child("pseudo_lower").getValue().toString(), child.getValue().toString());
+                                User user = new User(dataSnapshot.child("pseudo").getValue().toString(), child.getValue().toString());
                                 listUser.add(user);
                                 chargerRecyclerView(listUser);
                             }

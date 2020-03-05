@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -41,7 +39,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
-import com.example.sharehitv2.Authentification.LoginPage;
 import com.example.sharehitv2.Model.Recommandation;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnCompleteListener;

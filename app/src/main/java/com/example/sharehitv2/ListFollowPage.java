@@ -89,7 +89,7 @@ public class ListFollowPage extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     if(dataSnapshot.exists()){
-                        User user = new User(dataSnapshot.child("pseudo").getValue().toString(),dataSnapshot.child("pseudo_lower").getValue().toString(), id);
+                        User user = new User(dataSnapshot.child("pseudo").getValue().toString(),id);
                         listUser.add(user);
                         chargerRecyclerView(listUser);
                     }

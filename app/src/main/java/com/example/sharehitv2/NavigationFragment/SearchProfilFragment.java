@@ -107,24 +107,22 @@ public class SearchProfilFragment extends Fragment {
         recyclerViewSearchProfil.setAdapter(searchUserAdapter);
     }
 
-    public List<User> chargerListUser(String text){
+    public List<User> chargerListUser(final String text){
         final List<User> mUser = new ArrayList<>();
-        Query query = usersRef.orderByChild("pseudo_lower").startAt(text).endAt(text + "\uf8ff");
+        Query query = usersRef.orderByChild("pseudo");
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
-                    Log.e("friend", "nombre res : "+dataSnapshot.getChildrenCount() );
-                    Log.e("testest", "mAuth = "+mAuth.getUid() );
-                    Log.e("testest", "key = "+child.getKey() );
                     if(!mAuth.getUid().equals(child.getKey())) {
-                        User user = new User(
-                                child.child("pseudo").getValue().toString(),
-                                child.child("pseudo").getValue().toString().toLowerCase(),
-                                child.getKey()
-                        );
-                    mUser.add(user);
-                    Log.e("friend", user.getPseudo() );
+                        if (child.child("pseudo").toString().toLowerCase().contains(text)) {
+                            User user = new User(
+                                    child.child("pseudo").getValue().toString(),
+                                    child.getKey()
+                            );
+                            mUser.add(user);
+                            Log.e("friend", user.getPseudo());
+                        }
                     }
                     chargerRecyclerView(mUser);
                 }
