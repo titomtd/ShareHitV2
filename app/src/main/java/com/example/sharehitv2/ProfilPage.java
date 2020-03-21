@@ -2,12 +2,15 @@ package com.example.sharehitv2;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
 import com.example.sharehitv2.Model.Recommandation;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,6 +22,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
@@ -93,12 +97,12 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
     private StorageReference mStorageRef;
 
 
+
     @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final Bundle b = getIntent().getExtras();
-        final String[] s = {""};
 
         userId = b.getString("key");
 
@@ -106,24 +110,13 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        usersRef.child(userId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    s[0] = dataSnapshot.child("pseudo").getValue().toString();
-                } else {
-                    s[0] = "Compte supprimé";
-                    follow.setEnabled(false);
-                    follow.setVisibility(View.INVISIBLE);
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
 
         setContentView(R.layout.activity_profil_page);
 
 
+        nbrAbonnement = (TextView) findViewById(R.id.nbrAbonnement);
+        pseudo = (TextView) findViewById(R.id.pseudoProfilPage);
+        pdp = (CircleImageView) findViewById(R.id.pdpProfilPage);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerProfilPage);
         post = (RecyclerView) findViewById(R.id.postProfilPageRecyclerView);
         follow = (FloatingActionButton) findViewById(R.id.follow);
@@ -165,19 +158,83 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         params.height=0;
         lecteur.setLayoutParams(params);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        toolbar.setTitle(s[0]);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setTitle("");
+
+
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
         post.setLayoutManager(layoutManager);
+
+        final StorageReference filepath = mStorageRef;
+
+        filepath.child(userId).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+            @Override
+            public void onSuccess(StorageMetadata storageMetadata) {
+                Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+userId+"?alt=media").fit().centerInside().into(pdp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+
+                pdp.setImageResource(R.drawable.default_profile_picture);
+            }
+        });
+
+        usersRef.child(userId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    //actionBar.setTitle("Profil de "+dataSnapshot.child("pseudo").getValue().toString());
+                    pseudo.setText(dataSnapshot.child("pseudo").getValue().toString());
+                } else {
+                    pseudo.setText("Compte supprimé");
+                    follow.setEnabled(false);
+                    follow.setVisibility(View.INVISIBLE);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        usersRef.child(userId).child("followed").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getChildrenCount() <= 1){
+                    nbrAbonnement.setText(dataSnapshot.getChildrenCount() + " abonnement");
+                } else {
+                    nbrAbonnement.setText(dataSnapshot.getChildrenCount() + " abonnements");
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        nbrAbonnement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ListFollowPage.class);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
         usersRef.child(mAuth.getCurrentUser().getUid()).child("followed").addValueEventListener(new ValueEventListener() {
             @Override

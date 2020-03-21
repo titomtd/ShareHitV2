@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharehitv2.Model.Bookmark;
 import com.example.sharehitv2.R;
+import com.example.sharehitv2.RecommandationPage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -140,6 +142,18 @@ public class BookmarkAdapter extends
                         new Intent("android.intent.action.VIEW",
                                 Uri.parse(link));
                 context.startActivity(viewIntent);
+            }
+        });
+
+        LinearLayout bookmarkMain = viewHolder.bookmarkMain;
+        bookmarkMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, RecommandationPage.class);
+                Bundle b = new Bundle();
+                b.putString("key", bookmark.getRecommandation().getCleReco());
+                intent.putExtras(b);
+                context.startActivity(intent);
             }
         });
 

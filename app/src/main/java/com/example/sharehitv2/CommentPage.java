@@ -141,7 +141,7 @@ public class CommentPage extends AppCompatActivity {
     }
 
     private void displayAllComment() {
-        final Intent intent3 = new Intent(getApplicationContext(), ProfilPageAncienne.class);
+        final Intent intent3 = new Intent(getApplicationContext(), ProfilPage.class);
         final Bundle b = new Bundle();
         FirebaseRecyclerAdapter<Comment, CommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>
                 (

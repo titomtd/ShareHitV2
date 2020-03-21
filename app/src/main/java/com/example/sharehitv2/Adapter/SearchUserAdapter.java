@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharehitv2.Model.User;
+import com.example.sharehitv2.ProfilPage;
 import com.example.sharehitv2.ProfilPageAncienne;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -54,7 +55,7 @@ public class SearchUserAdapter extends
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         final Bundle b = new Bundle();
-        final Intent intent3 = new Intent(context, ProfilPageAncienne.class);
+        final Intent intent3 = new Intent(context, ProfilPage.class);
 
         holder.pseudoProfil.setText(user.getPseudo());
         final StorageReference filepath = mStorageRef;

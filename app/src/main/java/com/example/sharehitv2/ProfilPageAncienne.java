@@ -277,13 +277,6 @@ public class ProfilPageAncienne extends AppCompatActivity implements Recommandat
                     pseudo.setText("Compte supprimé");
                     follow.setEnabled(false);
                     follow.setVisibility(View.INVISIBLE);
-
-
-
-                    Log.e("Timestamp", String.valueOf(ServerValue.TIMESTAMP));
-                    Date d = new Date();
-
-                    Log.e("Timestamp", String.valueOf(currentTimeSecsUTC()));
                 }
 
 
