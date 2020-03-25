@@ -142,30 +142,53 @@ public class RecommandationPage extends AppCompatActivity {
         params.height=0;
         lecteur.setLayoutParams(params);
 
+        Bundle b1 = getIntent().getExtras();
 
         mAuth = FirebaseAuth.getInstance();
-        recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
+        recosRef = FirebaseDatabase.getInstance().getReference().child("recos").child(b1.getString("key"));
         followRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("followed");
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        Bundle b1 = getIntent().getExtras();
 
-        final String key = b1.getString("key");
+        final List<Recommandation> list = new ArrayList<>();
+
+        recosRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Recommandation reco = new Recommandation(
+                        dataSnapshot.child("album").getValue().toString(),
+                        dataSnapshot.child("artist").getValue().toString(),
+                        dataSnapshot.child("id").getValue().toString(),
+                        Double.parseDouble(dataSnapshot.child("timestamp").getValue().toString()),
+                        dataSnapshot.child("track").getValue().toString(),
+                        dataSnapshot.child("type").getValue().toString(),
+                        dataSnapshot.child("urlImage").getValue().toString(),
+                        dataSnapshot.child("urlPreview").getValue().toString(),
+                        dataSnapshot.child("userRecoUId").getValue().toString(),
+                        dataSnapshot.getKey());
+                list.add(reco);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {}
+        });
+
+
 
         Recommandation reco = new Recommandation(
-                "test",
-                "Avatar",
-                "tt0499549",
-                Double.parseDouble("1579900473"),
-                "",
-                "movie",
-                "https://pictures.betaseries.com/films/affiches/original/193.jpg",
-                "60tCdBxn3E0",
-                "1dbLzmOcMKYyAjH92CZwf0g4rgs1",
-                "-LzOP01496V9ZpvDygXh");
+                "TRINITY",
+                "Laylow",
+                "882365812",
+                Double.parseDouble("1584809011"),
+                "PLUG",
+                "track",
+                "https://cdns-images.dzcdn.net/images/artist/39053ee26ea22547cc13d23060ce29b9/500x500-000000-80-0-0.jpg",
+                "https://cdns-preview-4.dzcdn.net/stream/c-4fd579aa043b1f5108cd61cbbe055a32-3.mp3",
+                "qGaXB6XCyvSTVhbcX9B1YtGaA8j2",
+                "-M2xyaqB_l4T5dIg_Wb4");
 
-        final Recommandation recommandation = reco;
+        final Recommandation recommandation = list.get(0);
 
 
         final Intent intent1 = new Intent(this, ListLikePage.class);

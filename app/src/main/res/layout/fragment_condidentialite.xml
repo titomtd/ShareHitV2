@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <FrameLayout
+            android:id="@+id/frameAPropos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -29,6 +30,7 @@
             android:background="?android:attr/listDivider" />
 
         <FrameLayout
+            android:id="@+id/frameCondition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
