@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.sharehitv2.Adapter.ListLikeAdapter;
 import com.example.sharehitv2.Model.User;
@@ -70,6 +71,7 @@ public class ListFollowPage extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
+                    Log.e("Abonnement", child.getValue().toString());
                     l.add(child.getValue().toString());
                 }
             }

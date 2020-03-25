@@ -1,6 +1,8 @@
 package com.example.sharehitv2.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharehitv2.Model.User;
+import com.example.sharehitv2.ProfilPage;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -51,6 +54,9 @@ public class ListLikeAdapter extends
 
     @Override
     public void onBindViewHolder(final ListLikeAdapter.ViewHolder viewHolder, final int position) {
+        final Intent intent3 = new Intent(context, ProfilPage.class);
+        final Bundle b = new Bundle();
+
         final User user = mUser.get(position);
         TextView textView = viewHolder.pseudoUser;
         textView.setText(user.getPseudo());
@@ -67,6 +73,15 @@ public class ListLikeAdapter extends
             public void onFailure(@NonNull Exception exception) {
                 //Picasso.with(context).load("").fit().centerInside().into(viewHolder.getImgProfil());
                 circleImageView.setImageResource(R.drawable.default_profile_picture);
+            }
+        });
+
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b.putString("key", user.getUserId());
+                intent3.putExtras(b);
+                context.startActivity(intent3);
             }
         });
     }
