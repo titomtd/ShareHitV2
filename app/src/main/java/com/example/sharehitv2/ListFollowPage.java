@@ -60,53 +60,35 @@ public class ListFollowPage extends AppCompatActivity {
             }
         });
 
-        chargerRecyclerView(chargerListUser(chagerListFollow()));
+        chargerRecyclerView(chargerListFollow());
 
 
     }
 
-    public List<String> chagerListFollow(){
-        final List<String> l = new ArrayList<>();
+    public final List<User> chargerListFollow(){
+        final List<User> list = new ArrayList<>();
         usersRef.child(b.getString("key")).child("followed").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()){
-                    Log.e("Abonnement", child.getValue().toString());
-                    l.add(child.getValue().toString());
+                for(final DataSnapshot child : dataSnapshot.getChildren()){
+                    usersRef.child(child.getValue().toString()).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            User user = new User(dataSnapshot.child("pseudo").getValue().toString(),child.getValue().toString());
+                            list.add(user);
+                            chargerRecyclerView(list);
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) { }
+                    });
+
                 }
             }
-
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-        return l;
+        return list;
     }
-
-    public List<User> chargerListUser(List<String> list){
-        final List<User> listUser = new ArrayList<>();
-        for(final String id : list){
-            usersRef.child(id).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.exists()){
-                        User user = new User(dataSnapshot.child("pseudo").getValue().toString(),id);
-                        listUser.add(user);
-                        chargerRecyclerView(listUser);
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-        return listUser;
-    }
-
-
 
 
     public void chargerRecyclerView(List<User> list){
