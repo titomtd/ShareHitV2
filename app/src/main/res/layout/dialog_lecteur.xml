@@ -38,13 +38,13 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/musicImg"
-                android:layout_width="250dp"
-                android:layout_height="250dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="50dp"
                 android:layout_alignStart="@+id/progressBar"
                 android:layout_alignLeft="@+id/progressBar"
                 android:layout_alignEnd="@+id/progressBar"
                 android:layout_alignRight="@+id/progressBar"
-                android:foregroundGravity="center"
                 android:padding="8dp">
 
             </de.hdodenhof.circleimageview.CircleImageView>
