@@ -79,14 +79,12 @@ public class ListFollowPage extends AppCompatActivity {
                             chargerRecyclerView(list);
                         }
                         @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) { }
-                    });
+                        public void onCancelled(@NonNull DatabaseError databaseError) {}});
 
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
+            public void onCancelled(@NonNull DatabaseError databaseError) {}});
         return list;
     }
 

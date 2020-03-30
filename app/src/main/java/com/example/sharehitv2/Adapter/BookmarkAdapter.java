@@ -20,6 +20,7 @@ import com.example.sharehitv2.R;
 import com.example.sharehitv2.RecommandationPage;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -150,9 +151,10 @@ public class BookmarkAdapter extends
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RecommandationPage.class);
-                Bundle b = new Bundle();
-                b.putString("key", bookmark.getRecommandation().getCleReco());
-                intent.putExtras(b);
+                //Bundle b = new Bundle();
+                intent.putExtra("reco", new Gson().toJson(bookmark));
+                //b.putString("key", bookmark.getRecommandation().getCleReco());
+                //intent.putExtras(b);
                 context.startActivity(intent);
             }
         });

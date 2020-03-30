@@ -1,6 +1,7 @@
 package com.example.sharehitv2;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
@@ -53,6 +54,8 @@ import java.util.List;
 public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private long backPressedTime;
+    private Toast backToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +156,21 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
         if(fragment instanceof MyProfilFragment){
             ((MyProfilFragment) fragment).stop();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            finishAffinity();
+            System.exit(0);
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Appuyez une seconde fois pour quitter", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 
 
