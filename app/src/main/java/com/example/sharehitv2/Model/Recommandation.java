@@ -1,6 +1,9 @@
 package com.example.sharehitv2.Model;
 
-public class Recommandation {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Recommandation  {
 
     private String album, artist, id, track, type, urlImage, urlPreview, userRecoUid, cleReco;
     private Double timestamp;
@@ -34,6 +37,7 @@ public class Recommandation {
         this.userRecoUid = userRecoUid;
         this.cleReco = cleReco;
     }
+
 
     public Boolean getPlayable() {
         return isPlayable;
@@ -122,4 +126,5 @@ public class Recommandation {
     public void setCleReco(String cleReco) {
         this.cleReco = cleReco;
     }
+
 }

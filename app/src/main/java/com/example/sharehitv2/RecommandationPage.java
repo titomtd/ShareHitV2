@@ -3,6 +3,7 @@ package com.example.sharehitv2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -99,8 +100,36 @@ public class RecommandationPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommandation_page);
 
+        String jsonMyObject = null;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            jsonMyObject = extras.getString("reco");
+        }
+
+        final Recommandation recommandation = new Gson().fromJson(jsonMyObject, Recommandation.class);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarRecommandationPage);
+        setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        String title = "";
+        if(recommandation.getType().equals("track")){
+            title =recommandation.getTrack()+" de "+recommandation.getArtist();
+        } else if(recommandation.getType().equals("album")){
+            title =recommandation.getAlbum()+" de "+recommandation.getArtist();
+        } else {
+            title =recommandation.getArtist();
+        }
+        actionBar.setTitle(Html.fromHtml(title));
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RecommandationPage.super.onBackPressed();
+            }
+        });
+
+
         nbrlike = findViewById(R.id.nbrLike);
         nbrCom = findViewById(R.id.nbrComment);
 
@@ -151,51 +180,7 @@ public class RecommandationPage extends AppCompatActivity {
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
-        String jsonMyObject = null;
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            jsonMyObject = extras.getString("reco");
-        }
 
-        List<Recommandation> list = chargerRecommandation(b1.getString("key"));
-
-        /*
-        recosRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Recommandation reco = new Recommandation(
-                        dataSnapshot.child("album").getValue().toString(),
-                        dataSnapshot.child("artist").getValue().toString(),
-                        dataSnapshot.child("id").getValue().toString(),
-                        Double.parseDouble(dataSnapshot.child("timestamp").getValue().toString()),
-                        dataSnapshot.child("track").getValue().toString(),
-                        dataSnapshot.child("type").getValue().toString(),
-                        dataSnapshot.child("urlImage").getValue().toString(),
-                        dataSnapshot.child("urlPreview").getValue().toString(),
-                        dataSnapshot.child("userRecoUId").getValue().toString(),
-                        dataSnapshot.getKey());
-                list.add(reco);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}
-        });
-
-         */
-
-        Recommandation reco = new Recommandation(
-                "TRINITY",
-                "Laylow",
-                "882365812",
-                Double.parseDouble("1584809011"),
-                "PLUG",
-                "track",
-                "https://cdns-images.dzcdn.net/images/artist/39053ee26ea22547cc13d23060ce29b9/500x500-000000-80-0-0.jpg",
-                "https://cdns-preview-4.dzcdn.net/stream/c-4fd579aa043b1f5108cd61cbbe055a32-3.mp3",
-                "qGaXB6XCyvSTVhbcX9B1YtGaA8j2",
-                "-M2xyaqB_l4T5dIg_Wb4");
-
-        final Recommandation recommandation = new Gson().fromJson(jsonMyObject, Recommandation.class);;
 
 
         final Intent intent1 = new Intent(this, ListLikePage.class);
@@ -872,41 +857,6 @@ public class RecommandationPage extends AppCompatActivity {
         }
     }
 
-    public List<Recommandation> chargerRecommandation(final String id){
-        final List<Recommandation> list = new ArrayList<>();
-        recosRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot child : dataSnapshot.getChildren()){
-                    if(child.getKey().equals(id)){
-                        Recommandation recommandation = new Recommandation(
-                                child.child("album").getValue().toString(),
-                                child.child("artist").getValue().toString(),
-                                child.child("id").getValue().toString(),
-                                Double.parseDouble(child.child("timestamp").getValue().toString()),
-                                child.child("track").getValue().toString(),
-                                child.child("type").getValue().toString(),
-                                child.child("urlImage").getValue().toString(),
-                                child.child("urlPreview").getValue().toString(),
-                                child.child("userRecoUid").getValue().toString(),
-                                child.getKey());
-                        if (recommandation.getType().equals("artist")){
-                            recommandation.setPlayable(true);
-                        }else if (recommandation.getType().equals("album")){
-                            recommandation.setPlayable(true);
-                        } else if (recommandation.getType().equals("track")){
-                            recommandation.setPlayable(true);
-                        }
-                        list.add(recommandation);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {}});
-        return list;
-
-    }
 
 
 }

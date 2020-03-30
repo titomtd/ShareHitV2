@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".RecommandationPage">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarRecommandationPage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"/>
+
     <LinearLayout
         android:id="@+id/lecteur"
         android:layout_width="match_parent"
@@ -132,7 +140,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:elevation="5dp">
+        android:elevation="5dp"
+        android:layout_below="@id/toolbarRecommandationPage">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sharehitv2.Model.Bookmark;
@@ -151,10 +152,7 @@ public class BookmarkAdapter extends
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, RecommandationPage.class);
-                //Bundle b = new Bundle();
-                intent.putExtra("reco", new Gson().toJson(bookmark));
-                //b.putString("key", bookmark.getRecommandation().getCleReco());
-                //intent.putExtras(b);
+                intent.putExtra("reco", new Gson().toJson(bookmark.getRecommandation()));
                 context.startActivity(intent);
             }
         });

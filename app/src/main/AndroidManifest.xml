@@ -17,7 +17,8 @@
         android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecommandationPage"></activity>
+        <activity android:name=".RecommandationPage"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ProfilPage"
             android:label="@string/title_activity_profil_page"
