@@ -2,6 +2,7 @@ package com.example.sharehitv2;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -458,7 +459,14 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
             }
         });
-        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mp.stop();
+                mp.stop();
+                mp.reset();
+            }
+        });
         dialog.show();
     }
 
@@ -486,6 +494,14 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
     @Override
     public void stop() {
+        mp.stop();
+        mp.stop();
+        mp.reset();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         mp.stop();
         mp.stop();
         mp.reset();
