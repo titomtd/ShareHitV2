@@ -7,6 +7,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -45,6 +50,9 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -113,13 +121,18 @@ public class RecommandationPage extends AppCompatActivity {
         final ActionBar actionBar = getSupportActionBar();
         String title = "";
         if(recommandation.getType().equals("track")){
-            title =recommandation.getTrack()+" de "+recommandation.getArtist();
+            title =" " + recommandation.getTrack()+" de "+recommandation.getArtist();
         } else if(recommandation.getType().equals("album")){
-            title =recommandation.getAlbum()+" de "+recommandation.getArtist();
+            title =" " + recommandation.getAlbum()+" de "+recommandation.getArtist();
         } else {
-            title =recommandation.getArtist();
+            title =" " + recommandation.getArtist();
         }
-        actionBar.setTitle(Html.fromHtml(title));
+        actionBar.setTitle(title);
+        try {
+            actionBar.setIcon(resize(drawableFromUrl(recommandation.getUrlImage())));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -855,6 +868,23 @@ public class RecommandationPage extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    public static Drawable drawableFromUrl(String url) throws IOException {
+        Bitmap x;
+
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+        connection.connect();
+        InputStream input = connection.getInputStream();
+
+        x = BitmapFactory.decodeStream(input);
+        return new BitmapDrawable(Resources.getSystem(), x);
+    }
+
+    private Drawable resize(Drawable image) {
+        Bitmap b = ((BitmapDrawable)image).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
     }
 
 
