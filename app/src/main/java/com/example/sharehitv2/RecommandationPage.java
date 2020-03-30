@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -34,7 +37,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.sharehitv2.Model.Comment;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.Utilities.DividerItemDecorator;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -53,6 +59,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -65,9 +73,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RecommandationPage extends AppCompatActivity {
 
     TextView nbrlike;
-    TextView nbrCom;
 
-    TextView pseudoCom;
     TextView autreComment;
     TextView titreReco;
 
@@ -102,6 +108,9 @@ public class RecommandationPage extends AppCompatActivity {
     private LinearLayout lecteur;
     private TextView nameLect;
     private ImageView musicImg;
+
+    private RecyclerView commentList;
+    private DatabaseReference comRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,11 +153,14 @@ public class RecommandationPage extends AppCompatActivity {
             }
         });
 
+        commentList = (RecyclerView) findViewById(R.id.recyclerViewComment);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(false);
+        commentList.setLayoutManager(layoutManager);
 
         nbrlike = findViewById(R.id.nbrLike);
-        nbrCom = findViewById(R.id.nbrComment);
 
-        pseudoCom = findViewById(R.id.pseudoComment);
         autreComment = findViewById(R.id.autreComment);
         titreReco = findViewById(R.id.name);;
 
@@ -194,6 +206,7 @@ public class RecommandationPage extends AppCompatActivity {
         followRef = FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()).child("followed");
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        comRef = FirebaseDatabase.getInstance().getReference().child("recos").child(recommandation.getCleReco()).child("Coms");
 
 
 
@@ -224,49 +237,6 @@ public class RecommandationPage extends AppCompatActivity {
         descRecommandation.setText(Html.fromHtml(desc));
 
         Picasso.with(this).load(recommandation.getUrlImage()).fit().centerInside().into(pictureRecommandation);
-
-        recosRef.child(idReco).child("Coms").limitToLast(1).addValueEventListener(new ValueEventListener(){
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e("letesta", ""+dataSnapshot );
-                if (!dataSnapshot.hasChildren()){
-                    nbrCom.setText("");
-                    pseudoCom.setText("Aucun commentaire");
-                    autreComment.setText("0");
-                }
-                else {
-                    for (DataSnapshot child : dataSnapshot.getChildren()) {
-                        if (child.child("com").exists()) {
-
-                            nbrCom.setText(child.child("com").getValue().toString());
-                        }
-                        final String index = child.getKey();
-                        String idUsr = dataSnapshot.child(index).child("uid").getValue().toString();
-                        usersRef.child(idUsr).child("pseudo").addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if(dataSnapshot.exists()){
-                                    pseudoCom.setText(dataSnapshot.getValue().toString() + " :");
-                                } else {
-                                    pseudoCom.setText("Compte supprimé :");
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
         recosRef.child(idReco).child("Coms").addValueEventListener(new ValueEventListener() {
             @Override
@@ -654,6 +624,8 @@ public class RecommandationPage extends AppCompatActivity {
 
         });
 
+        displayAllComment();
+
 
     }
 
@@ -888,6 +860,76 @@ public class RecommandationPage extends AppCompatActivity {
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 50, 50, false);
         return new BitmapDrawable(getResources(), bitmapResized);
     }
+    private void displayAllComment() {
+        final Intent intent3 = new Intent(getApplicationContext(), ProfilPage.class);
+        final Bundle b = new Bundle();
+        FirebaseRecyclerAdapter<Comment, CommentPage.CommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Comment, CommentPage.CommentViewHolder>
+                (
+                        Comment.class,
+                        R.layout.comment_display,
+                        CommentPage.CommentViewHolder.class,
+                        comRef
+                ) {
+            @Override
+            protected void populateViewHolder(final CommentPage.CommentViewHolder commentViewHolder, final Comment comment, int i) {
+                commentViewHolder.setMessage(comment.getCom());
+
+                Calendar cl = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                cl.setTimeInMillis(comment.getTimestamp() * 1000);
+                DateFormat dateFormat = new SimpleDateFormat("dd"+"/"+"MM"+"/"+"yyyy"+" à "+"H"+":"+"mm");
+                commentViewHolder.setTime("Le "+dateFormat.format(cl.getTime()));
+
+                final StorageReference filepath = mStorageRef;
+
+                filepath.child(comment.getUid()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
+                    @Override
+                    public void onSuccess(StorageMetadata storageMetadata) {
+                        Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+comment.getUid()+"?alt=media").fit().centerInside().into(commentViewHolder.getImgProfilComment());
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception exception) {
+
+                        commentViewHolder.getImgProfilComment().setImageResource(R.drawable.default_profile_picture);
+                    }
+                });
+
+                usersRef.child(comment.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()){
+                            commentViewHolder.setPseudoComment(dataSnapshot.child("pseudo").getValue().toString());
+                        } else {
+                            commentViewHolder.setPseudoComment("Compte supprimé");
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                commentViewHolder.getImgProfilComment().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        b.putString("key", comment.getUid());
+                        intent3.putExtras(b);
+                        startActivity(intent3);
+                    }
+                });
+
+            }
+        };
+        commentList.setAdapter(firebaseRecyclerAdapter);
+        RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(getApplicationContext(), R.drawable.recycler_view_divider));
+        commentList.addItemDecoration(dividerItemDecoration);
+
+    }
+
 
 
 

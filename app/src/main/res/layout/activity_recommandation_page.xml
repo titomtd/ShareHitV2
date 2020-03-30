@@ -12,16 +12,16 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"/>
+        android:theme="?attr/actionBarTheme" />
 
     <LinearLayout
         android:id="@+id/lecteur"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_height="40dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_below="@id/toolbarRecommandationPage">
 
 
         <!--<TextView
@@ -141,7 +141,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:elevation="5dp"
-        android:layout_below="@id/toolbarRecommandationPage">
+        android:layout_below="@id/lecteur">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -357,29 +357,13 @@
             android:textSize="14sp"
             android:textStyle="bold" />-->
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/pseudoComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:text=""
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/nbrComment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="" />
-        </LinearLayout>
-
     </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewComment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linearLayoutReco"
+        android:layout_margin="10dp"/>
 
 </RelativeLayout>
