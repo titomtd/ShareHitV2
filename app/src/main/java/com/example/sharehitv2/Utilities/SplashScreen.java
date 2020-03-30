@@ -34,7 +34,7 @@ public class SplashScreen extends AppCompatActivity {
                 overridePendingTransition(R.anim.fadeout,0);
                 finish();
             }
-        }, secondsDelayed*1500);
+        }, secondsDelayed*600);
 
 
     }

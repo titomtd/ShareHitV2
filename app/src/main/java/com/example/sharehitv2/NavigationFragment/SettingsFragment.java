@@ -56,30 +56,7 @@ public class SettingsFragment extends Fragment {
 
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
 
-
-
             Preference deconnexion = (Preference) findPreference("signout");
-            Preference sombre = (SwitchPreferenceCompat) findPreference("sombre");
-            Preference theme = (ListPreference) findPreference("theme");
-
-            sombre.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if (newValue == Boolean.TRUE) {
-                        ((SwitchPreferenceCompat) preference).setChecked(true);
-
-                        Toast.makeText(getContext(), "Enabled", Toast.LENGTH_LONG).show();
-                    } else {
-                        ((SwitchPreferenceCompat) preference).setChecked(false);
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        Toast.makeText(getContext(), "Disabled", Toast.LENGTH_LONG).show();
-                    }
-                    return false;
-                }
-            });
-
-
-
             deconnexion.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {

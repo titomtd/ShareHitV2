@@ -22,6 +22,10 @@ android {
     aaptOptions {
         additionalParameters "--no-version-vectors"
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }
 
 dependencies {

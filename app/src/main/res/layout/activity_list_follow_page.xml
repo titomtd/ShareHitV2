@@ -6,10 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ListFollowPage">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarListFollow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listFollowRecyclerView"
         android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbarListFollow"/>
 
 </RelativeLayout>

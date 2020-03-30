@@ -3,11 +3,13 @@ package com.example.sharehitv2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.example.sharehitv2.Adapter.ListLikeAdapter;
 import com.example.sharehitv2.Model.User;
@@ -39,10 +41,20 @@ public class ListLikePage extends AppCompatActivity {
         recyclerLike = (RecyclerView) findViewById(R.id.likeRecyclerView);
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerListlike);
 
-        ActionBar actionBar = getSupportActionBar();
+        androidx.appcompat.widget.Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarListLikePage);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ListLikePage.super.onBackPressed();
+            }
+        });
+
         actionBar.setTitle("Aimé par");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
 
         Bundle b = getIntent().getExtras();
 

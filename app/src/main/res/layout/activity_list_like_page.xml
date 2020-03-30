@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ListLikePage">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarListLikePage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainerListlike"
@@ -14,7 +22,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp">
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/toolbarListLikePage">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/likeRecyclerView"

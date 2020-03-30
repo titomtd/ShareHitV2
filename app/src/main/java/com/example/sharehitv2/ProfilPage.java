@@ -160,11 +160,18 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setTitle("");
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfilPage.super.onBackPressed();
+            }
+        });
 
 
 

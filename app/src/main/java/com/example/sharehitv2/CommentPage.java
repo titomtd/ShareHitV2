@@ -3,6 +3,7 @@ package com.example.sharehitv2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,10 +59,19 @@ public class CommentPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_page);
 
-        ActionBar actionBar = getSupportActionBar();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCommentPage);
+        setSupportActionBar(toolbar);
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Commentaire");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+
+        toolbar.setNavigationIcon(R.drawable.ic_back);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommentPage.super.onBackPressed();
+            }
+        });
 
         commentList = (RecyclerView) findViewById(R.id.commentRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
