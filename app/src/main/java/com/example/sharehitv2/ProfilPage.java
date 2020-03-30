@@ -48,7 +48,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -79,6 +78,13 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
     private String keyFollowed;
 
+    private ProgressBar mSeekBarPlayer;
+    private ImageButton stop;
+    private ImageButton btnPause;
+    private LinearLayout lecteur;
+    private TextView nameLect;
+    private ImageView musicImg;
+
     private Animation buttonClick;
 
     private RecommandationAdapter adapter;
@@ -90,8 +96,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
     private StorageReference mStorageRef;
 
-    ProgressBar seekBar;
-    ImageButton pauseMusic;
+
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -139,6 +144,19 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
 
         buttonClick = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.click);
+
+        lecteur = findViewById(R.id.lecteur);
+        stop = findViewById(R.id.button1);
+        btnPause = findViewById(R.id.button2);
+        mSeekBarPlayer = findViewById(R.id.progressBar);
+        nameLect = findViewById(R.id.nameLect);
+        musicImg = findViewById(R.id.musicImg);
+
+        lecteur.setVisibility(View.VISIBLE);
+
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        params.height=0;
+        lecteur.setLayoutParams(params);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -356,91 +374,98 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         @Override
         public void run(){
             if(mp != null) {
-                seekBar.setProgress(mp.getCurrentPosition());
+                mSeekBarPlayer.setProgress(mp.getCurrentPosition());
             }
 
             if(mp.isPlaying()) {
-                pauseMusic.setImageResource(R.drawable.ic_pause);
-                seekBar.postDelayed(onEverySecond, 100);
+                btnPause.setImageResource(R.drawable.ic_pause);
+                mSeekBarPlayer.postDelayed(onEverySecond, 100);
             }else{
-                pauseMusic.setImageResource(R.drawable.ic_play);
+                btnPause.setImageResource(R.drawable.ic_play);
             }
         }
     };
 
     @Override
     public void lancerMusique(Recommandation model) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_lecteur,null);
-
         mp.seekTo(mp.getDuration());
         mp.reset();
-
-        TextView name = dialogView.findViewById(R.id.nameLect);
-        seekBar = dialogView.findViewById(R.id.progressBar);
-        ImageButton stopMusic = dialogView.findViewById(R.id.button1);
-        pauseMusic = dialogView.findViewById(R.id.button2);
-        CircleImageView img = dialogView.findViewById(R.id.musicImg);
-
-        builder.setView(dialogView);
-        final AlertDialog dialog = builder.create();
+        if (lecteur.getVisibility()==View.INVISIBLE) {
+            Log.e("testoo", ""+lecteur.getVisibility());
+            lecteur.setVisibility(View.VISIBLE);
+            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+            params.height = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
+            lecteur.setLayoutParams(params);
+        }
+        try{
+            Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
+        }
+        catch (IOException ex){
+            Log.e("testest", "Can't found data:"+model.getUrlPreview());
+        }
 
 
         if(model.getType().equals("track"))
-            name.setText(model.getTrack());
+            nameLect.setText(model.getTrack());
         else if(model.getType().equals("artist"))
-            name.setText(model.getArtist());
+            nameLect.setText(model.getArtist());
         else if(model.getType().equals("album"))
-            name.setText(model.getAlbum());
+            nameLect.setText(model.getAlbum());
                         /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
                         recosViewHolder.player.setVisibility(View.VISIBLE);*/
 
-        try {
-            mp.setDataSource(model.getUrlPreview());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        Picasso.with(getApplicationContext()).load(model.getUrlImage()).fit().centerInside().into(img);
+        Picasso.with(getApplicationContext()).load(model.getUrlImage()).fit().centerInside().into(musicImg);
         mp.prepareAsync();
         mp.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 int duration = mp.getDuration();
-                seekBar.setMax(duration);
+                mSeekBarPlayer.setMax(duration);
                 mp.start();
-                seekBar.postDelayed(onEverySecond, 500);
+                mSeekBarPlayer.postDelayed(onEverySecond, 500);
             }
         });
 
-        stopMusic.setOnClickListener(new View.OnClickListener() {
+        //recosViewHolder.playButton.startAnimation(buttonClick);
+
+        stop.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
                 mp.stop();
                 mp.reset();
-                dialog.cancel();
+                lecteur.setVisibility(View.INVISIBLE);
+
+
+
+                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
+                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
+                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
+
+                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+                params.height=0;
+                lecteur.setLayoutParams(params);
             }
         });
 
 
-        pauseMusic.setOnClickListener(new View.OnClickListener() {
+        btnPause.setOnClickListener(new View.OnClickListener() {
 
 
             @Override
             public void onClick(View v) {
                 if (mp.isPlaying()) {
                     mp.pause();
-                    pauseMusic.setImageResource(R.drawable.ic_play);
+                    btnPause.setImageResource(R.drawable.ic_play);
                                     /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
                                     recosViewHolder.playButton.setImageResource(R.drawable.ic_pause);
                                     recosViewHolder.player.setVisibility(View.INVISIBLE);*/
 
                 }
                 else {
-                    pauseMusic.setImageResource(R.drawable.ic_pause);
+                    btnPause.setImageResource(R.drawable.ic_pause);
                                     /*recosViewHolder.playButton.setVisibility(View.INVISIBLE);
                                     recosViewHolder.player.setVisibility(View.VISIBLE);*/
                     try {
@@ -453,13 +478,11 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
                         e.printStackTrace();
                     }
                     mp.start();
-                    seekBar.postDelayed(onEverySecond, 1000);
+                    mSeekBarPlayer.postDelayed(onEverySecond, 1000);
                 }
 
             }
         });
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.show();
     }
 
     @Override
@@ -489,5 +512,9 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         mp.stop();
         mp.stop();
         mp.reset();
+        lecteur.setVisibility(View.INVISIBLE);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        params.height=0;
+        lecteur.setLayoutParams(params);
     }
 }

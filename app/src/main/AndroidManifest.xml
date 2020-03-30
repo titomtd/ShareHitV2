@@ -22,25 +22,34 @@
         <activity
             android:name=".ProfilPage"
             android:label="@string/title_activity_profil_page"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ListFollowPage"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ListLikePage"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ProfilPageAncienne">
+        <activity android:name=".ProfilPageAncienne"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PagePrincipale" />
         </activity>
         <activity android:name=".CommentPage"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".Authentification.PasswordForgetPage" />
-        <activity android:name=".Authentification.SignUpPage" />
-        <activity android:name=".Authentification.LoginPage" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Authentification.PasswordForgetPage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Authentification.SignUpPage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Authentification.LoginPage"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".PagePrincipale"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ApiManager"
             android:screenOrientation="portrait" />

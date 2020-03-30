@@ -90,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/textView8"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="11dp"
         android:layout_marginBottom="10dp">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -99,7 +99,6 @@
             android:layout_height="wrap_content" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
     <LinearLayout
         android:id="@+id/lecteur"
@@ -151,8 +150,8 @@
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:progressBarStyleHorizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="33dp"
+                android:layout_height="33dp"
                 android:foregroundGravity="center"
                 android:progress="50"
                 android:progressDrawable="@drawable/circle" />
