@@ -114,6 +114,8 @@ public class RecommandationPage extends AppCompatActivity {
             jsonMyObject = extras.getString("reco");
         }
 
+        Log.e("recommandation", ""+jsonMyObject );
+
         final Recommandation recommandation = new Gson().fromJson(jsonMyObject, Recommandation.class);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarRecommandationPage);

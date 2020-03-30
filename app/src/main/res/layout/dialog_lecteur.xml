@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/rectangle_arrondi">
 
     <LinearLayout
         android:id="@+id/lecteur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -32,19 +32,19 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_gravity="center">
+            android:layout_marginLeft="10dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/musicImg"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_marginTop="50dp"
                 android:layout_alignStart="@+id/progressBar"
                 android:layout_alignLeft="@+id/progressBar"
                 android:layout_alignEnd="@+id/progressBar"
                 android:layout_alignRight="@+id/progressBar"
+                android:layout_marginTop="50dp"
                 android:padding="8dp">
 
             </de.hdodenhof.circleimageview.CircleImageView>
@@ -56,7 +56,8 @@
                 android:layout_height="250dp"
                 android:foregroundGravity="center"
                 android:progress="50"
-                android:progressDrawable="@drawable/circle" />
+                android:progressDrawable="@drawable/circle"
+                android:layout_marginBottom="-20dp"/>
         </RelativeLayout>
 
         <TextView
@@ -64,6 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_margin="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:clickable="true"
@@ -71,13 +73,13 @@
             android:enabled="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:gravity="center"
             android:marqueeRepeatLimit="marquee_forever"
             android:saveEnabled="true"
             android:selectAllOnFocus="true"
             android:singleLine="true"
             android:textSize="15sp"
-            android:textStyle="bold"
-            android:layout_margin="10dp"/>
+            android:textStyle="bold" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/relativeLayout"

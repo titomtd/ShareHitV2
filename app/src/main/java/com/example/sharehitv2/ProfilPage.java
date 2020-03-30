@@ -1,3 +1,4 @@
+
 package com.example.sharehitv2;
 
 import android.annotation.SuppressLint;
@@ -152,7 +153,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         nameLect = findViewById(R.id.nameLect);
         musicImg = findViewById(R.id.musicImg);
 
-        lecteur.setVisibility(View.VISIBLE);
+        lecteur.setVisibility(View.INVISIBLE);
 
         ViewGroup.LayoutParams params = lecteur.getLayoutParams();
         params.height=0;
@@ -391,7 +392,6 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         mp.seekTo(mp.getDuration());
         mp.reset();
         if (lecteur.getVisibility()==View.INVISIBLE) {
-            Log.e("testoo", ""+lecteur.getVisibility());
             lecteur.setVisibility(View.VISIBLE);
             ViewGroup.LayoutParams params = lecteur.getLayoutParams();
             params.height = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
