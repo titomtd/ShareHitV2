@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sharehitv2.CommentPage;
 import com.example.sharehitv2.ListLikePage;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.MyProfilFragment;
 import com.example.sharehitv2.ProfilPage;
 import com.example.sharehitv2.ProfilPageAncienne;
 import com.example.sharehitv2.R;
@@ -513,14 +514,16 @@ public class RecommandationAdapter extends
             }
         });
 
-        viewHolder.getImgProfil().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                b.putString("key", recommandation.getUserRecoUid());
-                intent3.putExtras(b);
-                context.startActivity(intent3);
-            }
-        });
+        if(!(context instanceof ProfilPage)) {
+            viewHolder.getImgProfil().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    b.putString("key", recommandation.getUserRecoUid());
+                    intent3.putExtras(b);
+                    context.startActivity(intent3);
+                }
+            });
+        }
 
         viewHolder.getDesc().setOnClickListener(new View.OnClickListener() {
             @Override
