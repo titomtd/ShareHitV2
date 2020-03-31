@@ -30,6 +30,8 @@ public class LoginPage extends AppCompatActivity {
     private TextView textView5;
     private TextView textView2;
 
+    private long backPressedTime;
+    private Toast backToast;
 
     @Override
     public void onStart() {
@@ -112,6 +114,21 @@ public class LoginPage extends AppCompatActivity {
 
 
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (backPressedTime + 2000 > System.currentTimeMillis()) {
+            backToast.cancel();
+            finishAffinity();
+            System.exit(0);
+            return;
+        } else {
+            backToast = Toast.makeText(getBaseContext(), "Appuyez une seconde fois pour quitter", Toast.LENGTH_SHORT);
+            backToast.show();
+        }
+
+        backPressedTime = System.currentTimeMillis();
     }
 }
 
