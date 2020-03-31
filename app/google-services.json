@@ -1,43 +1,78 @@
 {
   "project_info": {
-    "project_number": "76583587853",
-    "firebase_url": "https://sharehitv2.firebaseio.com",
-    "project_id": "sharehitv2",
-    "storage_bucket": "sharehitv2.appspot.com"
+    "project_number": "756914004922",
+    "firebase_url": "https://share-hit.firebaseio.com",
+    "project_id": "share-hit",
+    "storage_bucket": "share-hit.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:76583587853:android:37ee25dccfe963a371c544",
+        "mobilesdk_app_id": "1:756914004922:android:4a573ed64688106c3a7383",
         "android_client_info": {
-          "package_name": "com.example.sharehitv2"
+          "package_name": "com.example.sharehit"
         }
       },
       "oauth_client": [
         {
-          "client_id": "76583587853-lbdmt1c17ot2l46ng5ujn3etjklp1f3t.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.sharehitv2",
-            "certificate_hash": "81bd7b620f084500d7a87ea2937e6d1a567f92b8"
-          }
-        },
-        {
-          "client_id": "76583587853-6refh9ubtft8jt7h35m031eqv3n7d9uk.apps.googleusercontent.com",
+          "client_id": "756914004922-d2bhgojarhg9q8pvs556vhuqndvnv1gm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB0Ohe2VAN1rWp9YVlB_9C7y9JUVU3chos"
+          "current_key": "AIzaSyC3a7q9eLaP2wRcS4ENAHqQxLeGP2x9yJg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "76583587853-6refh9ubtft8jt7h35m031eqv3n7d9uk.apps.googleusercontent.com",
+              "client_id": "756914004922-d2bhgojarhg9q8pvs556vhuqndvnv1gm.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "756914004922-1kelqsdd6him72gji0ldnsuft6k5hais.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.IUTLaval-depINFO.Share-Hit-SwiftUI"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:756914004922:android:6bbed8f9965382c23a7383",
+        "android_client_info": {
+          "package_name": "com.example.sharehitv2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "756914004922-d2bhgojarhg9q8pvs556vhuqndvnv1gm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3a7q9eLaP2wRcS4ENAHqQxLeGP2x9yJg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "756914004922-d2bhgojarhg9q8pvs556vhuqndvnv1gm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "756914004922-1kelqsdd6him72gji0ldnsuft6k5hais.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.IUTLaval-depINFO.Share-Hit-SwiftUI"
+              }
             }
           ]
         }

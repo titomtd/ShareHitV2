@@ -86,9 +86,11 @@ public class ListFollowPage extends AppCompatActivity {
                     usersRef.child(child.getValue().toString()).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            User user = new User(dataSnapshot.child("pseudo").getValue().toString(),child.getValue().toString());
-                            list.add(user);
-                            chargerRecyclerView(list);
+                            if(dataSnapshot.exists()) {
+                                User user = new User(dataSnapshot.child("pseudo").getValue().toString(), child.getValue().toString());
+                                list.add(user);
+                                chargerRecyclerView(list);
+                            }
                         }
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {}});
