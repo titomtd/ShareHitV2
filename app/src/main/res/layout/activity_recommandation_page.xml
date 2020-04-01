@@ -18,10 +18,14 @@
         android:id="@+id/lecteur"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_below="@id/toolbarRecommandationPage"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
         android:background="@color/white"
         android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_below="@id/toolbarRecommandationPage">
+        app:layout_constraintTop_toTopOf="parent">
 
 
         <!--<TextView

@@ -51,6 +51,8 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -80,7 +82,7 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
         View header = navigationView.getHeaderView(0);
         final TextView text = (TextView) header.findViewById(R.id.pseudoProfilHeader);
         final TextView text2 = (TextView) header.findViewById(R.id.emailProfilHeader);
-        final ImageView imageView = (ImageView) header.findViewById(R.id.imageProfilHeader);
+        final CircleImageView imageView = (CircleImageView) header.findViewById(R.id.imageProfilHeader);
         FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

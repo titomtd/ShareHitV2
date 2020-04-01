@@ -139,11 +139,6 @@ public class RecommandationPage extends AppCompatActivity {
             title =" " + recommandation.getArtist();
         }
         actionBar.setTitle(title);
-        try {
-            actionBar.setIcon(resize(drawableFromUrl(recommandation.getUrlImage())));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         toolbar.setNavigationIcon(R.drawable.ic_back);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -276,7 +271,7 @@ public class RecommandationPage extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 //Picasso.with(context).load("").fit().centerInside().into(viewHolder.getImgProfil());
-                pictureRecommandation.setImageResource(R.drawable.default_profile_picture);
+                pictureUserRecommandation.setImageResource(R.drawable.default_profile_picture);
             }
         });
         //Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+recommandation.getUserRecoUid()+"?alt=media&token=1d93f69f-a530-455a-83d2-929ce42c3667").fit().centerInside().into(viewHolder.getImgProfil());
