@@ -120,7 +120,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
                 adapter.notifyDataSetChanged();
                 chargerRecyclerView(chargerListRecommandation());
                 swipeContainer.setRefreshing(false);
-                Picasso.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+mAuth.getCurrentUser().getUid()+"?alt=media&token=07b519e5-19ae-4004-b75c-f610b8fb6285").fit().centerInside().into(pdp);
+                Picasso.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+mAuth.getCurrentUser().getUid()+"?alt=media&token=07b519e5-19ae-4004-b75c-f610b8fb6285").fit().centerInside().into(pdp);
 
             }
         });
@@ -168,7 +168,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
         filepath.child(mAuth.getCurrentUser().getUid()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
-                Picasso.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+mAuth.getCurrentUser().getUid()+"?alt=media").fit().centerInside().into(pdp);
+                Picasso.with(getContext()).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+mAuth.getCurrentUser().getUid()+"?alt=media").fit().centerInside().into(pdp);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

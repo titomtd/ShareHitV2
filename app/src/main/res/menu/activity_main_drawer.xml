@@ -4,32 +4,38 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_home"
-            android:title="@string/menu_feed_page" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_bookmark"
-            android:title="@string/menu_private_bookmark_page" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_my_profil"
-            android:title="@string/menu_profil_page" />
-        <item
-            android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_search_user"
-            android:title="@string/menu_tools" />
-    </group>
-    <group android:checkableBehavior="none">
-        <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_settings"
-            android:title="@string/menu_settings" />
-        <item
-            android:id="@+id/nav_send"
-            android:icon="@drawable/ic_menu_confidentialite"
-            android:title="@string/menu_politique" />
+        <group
+            android:id="@+id/nav_g1"
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_home"
+                android:icon="@drawable/ic_menu_home"
+                android:title="@string/menu_feed_page" />
+            <item
+                android:id="@+id/nav_gallery"
+                android:icon="@drawable/ic_menu_bookmark"
+                android:title="@string/menu_private_bookmark_page" />
+            <item
+                android:id="@+id/nav_slideshow"
+                android:icon="@drawable/ic_menu_my_profil"
+                android:title="@string/menu_profil_page" />
+            <item
+                android:id="@+id/nav_tools"
+                android:icon="@drawable/ic_menu_search_user"
+                android:title="@string/menu_tools" />
+        </group>
+        <group
+            android:id="@+id/nav_g2"
+            android:checkableBehavior="single">
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_settings"
+                android:title="@string/menu_settings" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_confidentialite"
+                android:title="@string/menu_politique" />
+        </group>
     </group>
 
 </menu>
