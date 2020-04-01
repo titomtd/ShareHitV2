@@ -62,7 +62,7 @@ public class SearchUserAdapter extends
         filepath.child(user.getUserId()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
-                Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+user.getUserId()+"?alt=media").fit().centerInside().into(holder.imageProfil);
+                Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+user.getUserId()+"?alt=media").fit().centerInside().into(holder.imageProfil);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

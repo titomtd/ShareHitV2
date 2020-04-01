@@ -99,7 +99,7 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
         FirebaseStorage.getInstance().getReference().child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
-                Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"?alt=media").fit().centerInside().into(imageView);
+                Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+FirebaseAuth.getInstance().getCurrentUser().getUid()+"?alt=media").fit().centerInside().into(imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

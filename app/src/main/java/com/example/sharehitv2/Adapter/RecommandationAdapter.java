@@ -210,7 +210,7 @@ public class RecommandationAdapter extends
         filepath.child(recommandation.getUserRecoUid()).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
-                Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+recommandation.getUserRecoUid()+"?alt=media").fit().centerInside().into(viewHolder.getImgProfil());
+                Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+recommandation.getUserRecoUid()+"?alt=media").fit().centerInside().into(viewHolder.getImgProfil());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
