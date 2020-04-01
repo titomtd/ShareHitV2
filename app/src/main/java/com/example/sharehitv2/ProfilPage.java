@@ -187,7 +187,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         filepath.child(userId).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
-                Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+userId+"?alt=media").fit().centerInside().into(pdp);
+                Picasso.with(getApplicationContext()).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+userId+"?alt=media").fit().centerInside().into(pdp);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -66,7 +66,7 @@ public class ListLikeAdapter extends
         filepath.child(user.userId).getMetadata().addOnSuccessListener(new OnSuccessListener<StorageMetadata>() {
             @Override
             public void onSuccess(StorageMetadata storageMetadata) {
-                Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/share-hit.appspot.com/o/"+user.userId+"?alt=media").fit().centerInside().into(circleImageView);
+                Picasso.with(context).load("https://firebasestorage.googleapis.com/v0/b/sharehitv2.appspot.com/o/"+user.userId+"?alt=media").fit().centerInside().into(circleImageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
