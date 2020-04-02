@@ -82,10 +82,10 @@ public class LoginPage extends AppCompatActivity {
 
 
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    emailLog.setError("Invalid email");
+                    emailLog.setError("Adresse mail invalide");
                     emailLog.setFocusable(true);
                 }else if(password.length()<6){
-                    passLog.setError("Password lenght at least 6 charachters");
+                    passLog.setError("Le mot de passe doit être supérieur à 6 caractères");
                     passLog.setFocusable(true);
                 }else {
                     progress.show();

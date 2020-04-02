@@ -117,16 +117,20 @@ public class CommentPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(!TextUtils.isEmpty(sendText.getText().toString())){
-                    Comment comment = new Comment(
-                            sendText.getText().toString(),
-                            currentTimeSecsUTC(),
-                            mAuth.getCurrentUser().getUid()
-                    );
-                    String key = comRef.push().getKey();
-                    HashMap usersMap = new HashMap();
-                    usersMap.put(key, comment);
-                    comRef.updateChildren(usersMap);
-                    sendText.setText("");
+                    if(sendText.getText().toString().trim().length() < 125){
+                        Comment comment = new Comment(
+                                sendText.getText().toString(),
+                                currentTimeSecsUTC(),
+                                mAuth.getCurrentUser().getUid()
+                        );
+                        String key = comRef.push().getKey();
+                        HashMap usersMap = new HashMap();
+                        usersMap.put(key, comment);
+                        comRef.updateChildren(usersMap);
+                        sendText.setText("");
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Le message doit contenir 124 caractères maximum", Toast.LENGTH_LONG).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), "Le message est vide", Toast.LENGTH_LONG).show();
                 }

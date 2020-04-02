@@ -70,14 +70,17 @@ public class SignUpPage extends AppCompatActivity {
                 final String pseudo = pseudo_y.getText().toString();
                 final String password = pass_id.getText().toString();
 
-                if (pseudo.isEmpty()){
-                    pseudo_y.setError("Should not be empty");
+                if (pseudo.isEmpty()) {
+                    pseudo_y.setError("Veuillez mettre un pseudo");
+                    pseudo_y.setFocusable(true);
+                } else if(pseudo.trim().length() > 16){
+                    pseudo_y.setError("Le pseudo doit être inférieur à 16 caractères");
                     pseudo_y.setFocusable(true);
                 }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-                    email_id.setError("Invalid email");
+                    email_id.setError("Adresse mail invalide");
                     email_id.setFocusable(true);
                 }else if(password.length()<6){
-                    pass_id.setError("Should not be empty");
+                    pass_id.setError("Le mot de passe doit être supérieur à 6 caractères");
                     pass_id.setFocusable(true);
                 } else {
                     progress.show();

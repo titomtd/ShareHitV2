@@ -163,21 +163,23 @@ public class BookmarkPrivateFragment extends Fragment {
                         recosRef.child(child.getValue().toString()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                Recommandation recommandation = new Recommandation(
-                                        dataSnapshot.child("album").getValue().toString(),
-                                        dataSnapshot.child("artist").getValue().toString(),
-                                        dataSnapshot.child("id").getValue().toString(),
-                                        Double.parseDouble(dataSnapshot.child("timestamp").getValue().toString()),
-                                        dataSnapshot.child("track").getValue().toString(),
-                                        dataSnapshot.child("type").getValue().toString(),
-                                        dataSnapshot.child("urlImage").getValue().toString(),
-                                        dataSnapshot.child("urlPreview").getValue().toString(),
-                                        dataSnapshot.child("userRecoUid").getValue().toString(),
-                                        child.getValue().toString());
-                                Bookmark bookmark = new Bookmark(child.getKey(), recommandation);
-                                listBookmark.add(bookmark);
-                                bookmarks = listBookmark;
-                                chargerRecyclerView(listBookmark);
+                                if(dataSnapshot.exists()){
+                                    Recommandation recommandation = new Recommandation(
+                                            dataSnapshot.child("album").getValue().toString(),
+                                            dataSnapshot.child("artist").getValue().toString(),
+                                            dataSnapshot.child("id").getValue().toString(),
+                                            Double.parseDouble(dataSnapshot.child("timestamp").getValue().toString()),
+                                            dataSnapshot.child("track").getValue().toString(),
+                                            dataSnapshot.child("type").getValue().toString(),
+                                            dataSnapshot.child("urlImage").getValue().toString(),
+                                            dataSnapshot.child("urlPreview").getValue().toString(),
+                                            dataSnapshot.child("userRecoUid").getValue().toString(),
+                                            child.getValue().toString());
+                                    Bookmark bookmark = new Bookmark(child.getKey(), recommandation);
+                                    listBookmark.add(bookmark);
+                                    bookmarks = listBookmark;
+                                    chargerRecyclerView(listBookmark);
+                                }
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) { }
