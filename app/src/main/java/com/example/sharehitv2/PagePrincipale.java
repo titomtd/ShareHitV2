@@ -60,19 +60,19 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
     private AppBarConfiguration mAppBarConfiguration;
     private long backPressedTime;
     private Toast backToast;
-    private ActionBar actionBar;
+
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.e("testest", "load page principale");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page_principale);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
-        actionBar = getActionBar();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -183,6 +183,6 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
 
     @Override
     public void setTitle(String title) {
-        actionBar.setTitle(title);
+        toolbar.setTitle(title);
     }
 }

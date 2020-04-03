@@ -99,6 +99,7 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
                 chargerRecyclerView(chargerListRecommandation());
                 type=-1;
                 swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Acceuil");
             }
         });
         morceau.setOnClickListener(new View.OnClickListener() {
