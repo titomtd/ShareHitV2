@@ -12,7 +12,6 @@
         android:id="@+id/lecteur"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="-10dp"
         android:background="@color/white"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
@@ -129,10 +128,12 @@
 
     </LinearLayout>
 
+
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_below="@id/lecteur"
         android:layout_alignBottom="@+id/space"
         android:layout_marginBottom="40dp"

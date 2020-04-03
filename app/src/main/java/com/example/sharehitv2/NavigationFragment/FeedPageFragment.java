@@ -99,6 +99,9 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
     private TextView nameLect;
     private ImageView musicImg;
 
+    private Fragment fragment;
+    private InteractionMenu interactionMenu;
+
 
     @Override
     public void onStart() {
@@ -120,6 +123,7 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
             }else {
                 //transaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right, R.anim.enter_from_right, R.anim.exit_to_right );
             }
+            this.interactionMenu=(InteractionMenu) fragment;
             transaction.replace(R.id.container, fragment);
             transaction.addToBackStack("test");
             transaction.commit();
@@ -145,14 +149,11 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
 
         final View root = inflater.inflate(R.layout.fragment_feed_page, container, false);
 
-
+        Toast.makeText(getContext(), ""+getActivity(), Toast.LENGTH_SHORT).show();
 
         mAuth = FirebaseAuth.getInstance();
         container = root.findViewById(R.id.container);
         navigationView = root.findViewById(R.id.space);
-
-
-
 
         navigationView.initWithSaveInstanceState(savedInstanceState);
         navigationView.addSpaceItem(new SpaceItem("Tous", R.drawable.time_icon));
@@ -297,7 +298,7 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
 
             @Override
             public void onItemReselected(int itemIndex, String itemName) {
-                //Toast.makeText(FeedPage.this, itemIndex + " " + itemName, Toast.LENGTH_SHORT).show();
+                interactionMenu.rechargerPage();
             }
         });
 
@@ -462,5 +463,9 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
     public void onPause() {
         super.onPause();
         stop();
+    }
+
+    public interface InteractionMenu{
+        void rechargerPage();
     }
 }

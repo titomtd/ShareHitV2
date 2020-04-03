@@ -54,6 +54,8 @@ public class CommentPage extends AppCompatActivity {
 
     private RecyclerView commentList;
 
+    private int nombreCommentaire=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,21 +130,21 @@ public class CommentPage extends AppCompatActivity {
                         usersMap.put(key, comment);
                         comRef.updateChildren(usersMap);
                         sendText.setText("");
+                        nombreCommentaire++;
                     } else {
                         Toast.makeText(getApplicationContext(), "Le message doit contenir 124 caractères maximum", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Le message est vide", Toast.LENGTH_LONG).show();
                 }
+                //commentList.smoothScrollToPosition(0);
             }
         });
 
-        displayAllComment();
-
-
-
-
+        nombreCommentaire=displayAllComment();
+        //commentList.scrollToPosition(0);
     }
+
 
     public static long currentTimeSecsUTC() {
         return Calendar.getInstance(TimeZone.getTimeZone("UTC"))
@@ -154,7 +156,7 @@ public class CommentPage extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    private void displayAllComment() {
+    private int displayAllComment() {
         final Intent intent3 = new Intent(getApplicationContext(), ProfilPage.class);
         final Bundle b = new Bundle();
         FirebaseRecyclerAdapter<Comment, CommentViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Comment, CommentViewHolder>
@@ -221,6 +223,8 @@ public class CommentPage extends AppCompatActivity {
         commentList.setAdapter(firebaseRecyclerAdapter);
         RecyclerView.ItemDecoration dividerItemDecoration = new DividerItemDecorator(ContextCompat.getDrawable(getApplicationContext(), R.drawable.recycler_view_divider));
         commentList.addItemDecoration(dividerItemDecoration);
+
+        return firebaseRecyclerAdapter.getItemCount();
 
     }
 

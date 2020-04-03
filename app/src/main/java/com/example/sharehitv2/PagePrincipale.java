@@ -1,5 +1,6 @@
 package com.example.sharehitv2;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
 import com.example.sharehitv2.Model.Recommandation;
 import com.example.sharehitv2.NavigationFragment.FeedPageFragment;
+import com.example.sharehitv2.NavigationFragment.Fragment.FeedFragment;
 import com.example.sharehitv2.NavigationFragment.MyProfilFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,11 +55,12 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener {
+public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener, FeedFragment.ActionBarInteraction {
 
     private AppBarConfiguration mAppBarConfiguration;
     private long backPressedTime;
     private Toast backToast;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,8 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
+        actionBar = getActionBar();
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -176,5 +181,8 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
     }
 
 
-
+    @Override
+    public void setTitle(String title) {
+        actionBar.setTitle(title);
+    }
 }

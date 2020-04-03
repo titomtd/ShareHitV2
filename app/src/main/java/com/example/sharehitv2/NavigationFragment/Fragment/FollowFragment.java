@@ -29,6 +29,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.FeedPageFragment;
 import com.example.sharehitv2.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -43,7 +44,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class FollowFragment extends Fragment {
+public class FollowFragment extends Fragment implements FeedPageFragment.InteractionMenu {
 
 
     RecyclerView recyclerView;
@@ -251,6 +252,11 @@ public class FollowFragment extends Fragment {
             }
         }
         return isFollow;
+    }
+
+    @Override
+    public void rechargerPage() {
+        recyclerView.smoothScrollToPosition(adapter.getItemCount());
     }
 
 }

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sharehitv2.CommentPage;
 import com.example.sharehitv2.ListLikePage;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.Fragment.FeedFragment;
 import com.example.sharehitv2.NavigationFragment.MyProfilFragment;
 import com.example.sharehitv2.ProfilPage;
 import com.example.sharehitv2.ProfilPageAncienne;
