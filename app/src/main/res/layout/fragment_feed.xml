@@ -10,50 +10,89 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:scrollbars="none"
-        android:background="#00000000">
+        android:background="#00000000"
+        android:layout_marginRight="2dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_divider"
+            android:layout_margin="2dp">
+
             <Button
                 android:id="@+id/tout"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Aucun tri"></Button>
+                android:text="Tout"
+                android:textColor="@color/white"
+                android:layout_margin="2dp"
+                android:background="@drawable/fond_sel"></Button>
+
             <Button
                 android:id="@+id/morceau"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Morceau"></Button>
+                android:background="@drawable/fond_unsel"
+                android:text="Morceau"
+                android:textColor="@color/black"
+                android:layout_margin="2dp"></Button>
+
             <Button
                 android:id="@+id/album"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Album"></Button>
+                android:background="@drawable/fond_unsel"
+                android:text="Album"
+                android:textColor="@color/black"
+                android:layout_margin="2dp"></Button>
+
             <Button
                 android:id="@+id/artiste"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Artiste"></Button>
+                android:background="@drawable/fond_unsel"
+                android:text="Artiste"
+                android:textColor="@color/black"
+                android:layout_margin="2dp"></Button>
+
             <Button
                 android:id="@+id/film"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Film"></Button>
+                android:background="@drawable/fond_unsel"
+                android:text="Film"
+                android:textColor="@color/black"
+                android:layout_margin="2dp"></Button>
+
             <Button
                 android:id="@+id/serie"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Série"></Button>
+                android:background="@drawable/fond_unsel"
+                android:text="Série"
+                android:textColor="@color/black"
+                android:layout_margin="2dp"></Button>
+
             <Button
                 android:id="@+id/jeu"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Jeu Vidéo"></Button>
+                android:background="@drawable/fond_unsel"
+                android:text="Jeu Vidéo"
+                android:textColor="@color/black"
+                android:layout_margin="2dp"></Button>
         </LinearLayout>
 
     </HorizontalScrollView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ScrollView>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainerFeed"

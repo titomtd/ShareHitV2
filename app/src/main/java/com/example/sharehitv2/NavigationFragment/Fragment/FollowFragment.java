@@ -1,7 +1,9 @@
 package com.example.sharehitv2.NavigationFragment.Fragment;
 
+import android.animation.ValueAnimator;
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +15,8 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -61,6 +65,23 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
     private boolean isFollow;
     private List<String> userFollow;
 
+    private List<Recommandation> recommandations;
+    private int type=-1;
+
+    private HorizontalScrollView triReco;
+    private int ancienneHauteurTriReco;
+
+    private Button tout;
+    private Button morceau;
+    private Button album;
+    private Button artiste;
+    private Button film;
+    private Button serie;
+    private Button jeu;
+
+    private ActionBarInteraction actionBarInteraction;
+
+    private static int y;
 
     @Nullable
     @Override
@@ -69,6 +90,170 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
         recyclerView = root.findViewById(R.id.postFollowRecyclerView);
         swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainerFollow);
 
+        triReco = root.findViewById(R.id.triReco);
+        ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
+        ancienneHauteurTriReco = layoutParams.height;
+
+        tout = root.findViewById(R.id.tout);
+        morceau = root.findViewById(R.id.morceau);
+        album = root.findViewById(R.id.album);
+        album = root.findViewById(R.id.album);
+        artiste = root.findViewById(R.id.artiste);
+        film = root.findViewById(R.id.film);
+        serie = root.findViewById(R.id.serie);
+        jeu = root.findViewById(R.id.jeu);
+
+        actionBarInteraction = (ActionBarInteraction) getActivity();
+
+        actionBarInteraction.setTitle("Accueil");
+
+        ValueAnimator disparrait = ValueAnimator.ofInt(ancienneHauteurTriReco,0);
+        disparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
+                layoutParams.height = val;
+                triReco.setLayoutParams(layoutParams);
+            }
+        });
+        disparrait.setDuration(400);
+
+        ValueAnimator apparait = ValueAnimator.ofInt(triReco.getMeasuredHeight(), ancienneHauteurTriReco);
+        apparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
+                layoutParams.height = val;
+                triReco.setLayoutParams(layoutParams);
+            }
+        });
+        apparait.setDuration(400);
+
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+               ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
+               if(Math.abs(dy-y)>30){
+                   if (dy > 0) {
+                       if (!(apparait.isStarted()) && !(disparrait.isStarted()) && layoutParams.height==ancienneHauteurTriReco) {
+                           disparrait.start();
+                       }
+                   } else {
+                       if (!(disparrait.isStarted()) && !(apparait.isStarted()) && layoutParams.height==0) {
+                           apparait.start();
+                       }
+                   }
+               }
+
+               y=dy;
+            }
+
+        });
+
+        tout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                tout.setBackgroundResource(R.drawable.fond_sel);
+                tout.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(chargerListRecommandation());
+                type=-1;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil");
+            }
+        });
+        morceau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                morceau.setBackgroundResource(R.drawable.fond_sel);
+                morceau.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(filtrerList(2));
+                type=2;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil : Morceau");
+            }
+        });
+        artiste.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                artiste.setBackgroundResource(R.drawable.fond_sel);
+                artiste.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(filtrerList(0));
+                type=0;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil : Artiste");
+            }
+        });
+        album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                album.setBackgroundResource(R.drawable.fond_sel);
+                album.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(filtrerList(1));
+                type=1;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil : Album");
+            }
+        });
+        serie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                serie.setBackgroundResource(R.drawable.fond_sel);
+                serie.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(filtrerList(3));
+                type=3;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil : Série");
+            }
+        });
+        film.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                film.setBackgroundResource(R.drawable.fond_sel);
+                film.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(filtrerList(4));
+                type=4;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil : Film");
+            }
+        });
+        jeu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reset();
+                jeu.setBackgroundResource(R.drawable.fond_sel);
+                jeu.setTextColor(getResources().getColor(R.color.white));
+                isCharged = true;
+                adapter.notifyDataSetChanged();
+                chargerRecyclerView(filtrerList(5));
+                type=5;
+                swipeContainer.setRefreshing(false);
+                actionBarInteraction.setTitle("Accueil : Jeu Vidéo");
+            }
+        });
 
         isCharged = true;
         userFollow = new ArrayList<>();
@@ -80,7 +265,11 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
                 chargerListFollow();
                 isCharged = true;
                 adapter.notifyDataSetChanged();
-                chargerRecyclerView(chargerListRecommandation());
+                if (type>-1){
+                    chargerRecyclerView(filtrerList(type));
+                }else {
+                    chargerRecyclerView(chargerListRecommandation());
+                }
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -98,10 +287,43 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
 
         chargerListFollow();
 
-        chargerRecyclerView(chargerListRecommandation());
+        recommandations=chargerListRecommandation();
+        chargerRecyclerView(recommandations);
 
 
         return root;
+    }
+
+    private void reset(){
+        Button bouton = null;
+        switch (type){
+            case -1:
+                bouton = tout;
+                break;
+            case 0:
+                bouton = artiste;
+                break;
+            case 1:
+                bouton = album;
+                break;
+            case 2:
+                bouton = morceau;
+                break;
+            case 3:
+                bouton = serie;
+                break;
+            case 4:
+                bouton = film;
+                break;
+            case 5:
+                bouton = jeu;
+                break;
+
+        }
+        if (bouton!=null) {
+            bouton.setBackgroundResource(R.drawable.fond_unsel);
+            bouton.setTextColor(getResources().getColor(R.color.black));
+        }
     }
 
     @Override
@@ -174,6 +396,34 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
             return true;
         }
         return false;
+    }
+
+    public List<Recommandation> filtrerList(int i){
+        final List<Recommandation> listReco = new ArrayList<>();
+        final String type;
+        switch (i){
+            case 0: type = "artist";
+                break;
+            case 1: type = "album";
+                break;
+            case 2: type = "track";
+                break;
+            case 3: type = "serie";
+                break;
+            case 4: type = "movie";
+                break;
+            case 5: type = "game";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + i);
+        }
+        for(Recommandation recos : recommandations){
+            if(recos.getType().equals(type)){
+                listReco.add(recos);
+                chargerRecyclerView(listReco);
+            }
+        }
+        return listReco;
     }
 
     public List<Recommandation> chargerListRecommandation(){
@@ -257,6 +507,10 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
     @Override
     public void rechargerPage() {
         recyclerView.smoothScrollToPosition(adapter.getItemCount());
+    }
+
+    public interface ActionBarInteraction{
+        void setTitle(String title);
     }
 
 }

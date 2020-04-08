@@ -149,8 +149,6 @@ public class FeedPageFragment extends Fragment implements RecommandationAdapter.
 
         final View root = inflater.inflate(R.layout.fragment_feed_page, container, false);
 
-        Toast.makeText(getContext(), ""+getActivity(), Toast.LENGTH_SHORT).show();
-
         mAuth = FirebaseAuth.getInstance();
         container = root.findViewById(R.id.container);
         navigationView = root.findViewById(R.id.space);
