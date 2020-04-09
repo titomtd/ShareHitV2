@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -112,6 +113,11 @@ public class RecommandationPage extends AppCompatActivity {
     private RecyclerView commentList;
     private DatabaseReference comRef;
 
+    private ValueAnimator lecteurApparait;
+    private ValueAnimator lecteurDisparrait;
+
+    private int ancienneHauteurLecteur;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,10 +195,34 @@ public class RecommandationPage extends AppCompatActivity {
         nameLect = findViewById(R.id.nameLect);
         musicImg = findViewById(R.id.musicImg);
 
-        lecteur.setVisibility(View.INVISIBLE);
         ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        ancienneHauteurLecteur=params.height;
         params.height=0;
         lecteur.setLayoutParams(params);
+
+        lecteurApparait = ValueAnimator.ofInt(lecteur.getMeasuredHeight(), ancienneHauteurLecteur);
+        lecteurApparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurApparait.setDuration(400);
+
+        lecteurDisparrait = ValueAnimator.ofInt(ancienneHauteurLecteur,0);
+        lecteurDisparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurDisparrait.setDuration(400);
 
         Bundle b1 = getIntent().getExtras();
 
@@ -626,12 +656,11 @@ public class RecommandationPage extends AppCompatActivity {
 
     public void stop() {
         mp.stop();
-        mp.stop();
         mp.reset();
-        lecteur.setVisibility(View.INVISIBLE);
         ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-        params.height=0;
-        lecteur.setLayoutParams(params);
+        if(params.height==ancienneHauteurLecteur) {
+            lecteurDisparrait.start();
+        }
     }
 
     @Override
@@ -665,12 +694,6 @@ public class RecommandationPage extends AppCompatActivity {
     public void lancerMusique(Recommandation model) {
         mp.seekTo(mp.getDuration());
         mp.reset();
-        if (lecteur.getVisibility()==View.INVISIBLE) {
-            lecteur.setVisibility(View.VISIBLE);
-            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-            params.height = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
-            lecteur.setLayoutParams(params);
-        }
         try{
             Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
         }
@@ -710,17 +733,7 @@ public class RecommandationPage extends AppCompatActivity {
 
                 mp.stop();
                 mp.reset();
-                lecteur.setVisibility(View.INVISIBLE);
-
-
-
-                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
-                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
-                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
-
-                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-                params.height=0;
-                lecteur.setLayoutParams(params);
+                lecteurDisparrait.start();
             }
         });
 
@@ -757,6 +770,12 @@ public class RecommandationPage extends AppCompatActivity {
 
             }
         });
+
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        if(params.height==0) {
+            lecteurApparait.start();
+        }
+
     }
 
 

@@ -104,8 +104,8 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
 
         actionBarInteraction.setTitle("Accueil");
 
-        ValueAnimator disparrait = ValueAnimator.ofInt(ancienneHauteurTriReco,0);
-        disparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator triDisparrait = ValueAnimator.ofInt(ancienneHauteurTriReco,0);
+        triDisparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
@@ -114,10 +114,10 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
                 triReco.setLayoutParams(layoutParams);
             }
         });
-        disparrait.setDuration(400);
+        triDisparrait.setDuration(400);
 
-        ValueAnimator apparait = ValueAnimator.ofInt(triReco.getMeasuredHeight(), ancienneHauteurTriReco);
-        apparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        ValueAnimator triApparait = ValueAnimator.ofInt(triReco.getMeasuredHeight(), ancienneHauteurTriReco);
+        triApparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
                 int val = (Integer) valueAnimator.getAnimatedValue();
@@ -126,7 +126,7 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
                 triReco.setLayoutParams(layoutParams);
             }
         });
-        apparait.setDuration(400);
+        triApparait.setDuration(400);
 
 
 
@@ -138,16 +138,15 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
                 ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
                 if(Math.abs(dy-y)>30){
                     if (dy > 0) {
-                        if (!(apparait.isStarted()) && !(disparrait.isStarted()) && layoutParams.height==ancienneHauteurTriReco) {
-                            disparrait.start();
+                        if (!(triApparait.isStarted()) && !(triDisparrait.isStarted()) && layoutParams.height==ancienneHauteurTriReco) {
+                            triDisparrait.start();
                         }
                     } else {
-                        if (!(disparrait.isStarted()) && !(apparait.isStarted()) && layoutParams.height==0) {
-                            apparait.start();
+                        if (!(triDisparrait.isStarted()) && !(triApparait.isStarted()) && layoutParams.height==0) {
+                            triApparait.start();
                         }
                     }
                 }
-
                 y=dy;
             }
 

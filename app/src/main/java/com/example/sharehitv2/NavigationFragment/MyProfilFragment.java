@@ -1,6 +1,7 @@
 package com.example.sharehitv2.NavigationFragment;
 
 import android.Manifest;
+import android.animation.ValueAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -102,6 +103,11 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
 
     private boolean isCharged;
 
+    private ValueAnimator lecteurApparait;
+    private ValueAnimator lecteurDisparrait;
+
+    private int ancienneHauteurLecteur;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my_profil, container, false);
@@ -152,11 +158,34 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
         nameLect = root.findViewById(R.id.nameLect);
         musicImg = root.findViewById(R.id.musicImg);
 
-        lecteur.setVisibility(View.INVISIBLE);
-
         ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        ancienneHauteurLecteur=params.height;
         params.height=0;
         lecteur.setLayoutParams(params);
+
+        lecteurApparait = ValueAnimator.ofInt(lecteur.getMeasuredHeight(), ancienneHauteurLecteur);
+        lecteurApparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurApparait.setDuration(400);
+
+        lecteurDisparrait = ValueAnimator.ofInt(ancienneHauteurLecteur,0);
+        lecteurDisparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurDisparrait.setDuration(400);
 
         cameraPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermissions = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -463,12 +492,6 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
     public void lancerMusique(Recommandation model) {
         mp.seekTo(mp.getDuration());
         mp.reset();
-        if (lecteur.getVisibility()==View.INVISIBLE) {
-            lecteur.setVisibility(View.VISIBLE);
-            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-            params.height = ActionBar.LayoutParams.WRAP_CONTENT;
-            lecteur.setLayoutParams(params);
-        }
         try{
             Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
         }
@@ -508,17 +531,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
 
                 mp.stop();
                 mp.reset();
-                lecteur.setVisibility(View.INVISIBLE);
-
-
-
-                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
-                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
-                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
-
-                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-                params.height=0;
-                lecteur.setLayoutParams(params);
+                lecteurDisparrait.start();
             }
         });
 
@@ -555,6 +568,10 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
 
             }
         });
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        if(params.height==0) {
+            lecteurApparait.start();
+        }
     }
 
     @Override
@@ -582,12 +599,8 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
     @Override
     public void stop() {
         mp.stop();
-        mp.stop();
         mp.reset();
-        lecteur.setVisibility(View.INVISIBLE);
-        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-        params.height=0;
-        lecteur.setLayoutParams(params);
+        lecteurDisparrait.start();
     }
 
     @Override

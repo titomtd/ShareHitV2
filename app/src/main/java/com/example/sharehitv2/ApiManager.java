@@ -1,5 +1,6 @@
 package com.example.sharehitv2;
 
+import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -86,6 +87,11 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
 
     private int ancienneHauteurAucun = 0;
 
+    private ValueAnimator lecteurApparait;
+    private ValueAnimator lecteurDisparrait;
+
+    private int ancienneHauteurLecteur;
+
     @Override
     public void onPause() {
         super.onPause();
@@ -101,11 +107,30 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
+        search = (SearchView) findViewById(R.id.searchv);
+
         Bundle b = getIntent().getExtras();
         if(b != null)
             type = b.getInt("key");
 
-        search = (SearchView) findViewById(R.id.searchv);
+        if(type == 1){
+            search.setQueryHint("Rechercher un artiste...");
+        }
+        if(type == 2) {
+            search.setQueryHint("Rechercher un album...");
+        }
+        if(type == 3) {
+            search.setQueryHint("Rechercher un morceau...");
+        }
+        if(type == 4) {
+            search.setQueryHint("Rechercher un film...");
+        }
+        if(type == 5) {
+            search.setQueryHint("Rechercher une série...");
+        }
+        if(type == 6) {
+            search.setQueryHint("Rechercher un jeu vidéo...");
+        }
 
         mRecyclerView = findViewById(R.id.recycler_view_d);
         mRecyclerView.setHasFixedSize(true);
@@ -115,10 +140,34 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         mRequestQueue = Volley.newRequestQueue(this);
 
         lecteur = findViewById(R.id.lecteur);
-        lecteur.setVisibility(View.INVISIBLE);
         ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        ancienneHauteurLecteur=params.height;
         params.height=0;
         lecteur.setLayoutParams(params);
+
+        lecteurApparait = ValueAnimator.ofInt(lecteur.getMeasuredHeight(), ancienneHauteurLecteur);
+        lecteurApparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurApparait.setDuration(400);
+
+        lecteurDisparrait = ValueAnimator.ofInt(ancienneHauteurLecteur,0);
+        lecteurDisparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurDisparrait.setDuration(400);
 
         aucun = findViewById(R.id.aucun);
         aucun.setVisibility(View.INVISIBLE);
@@ -137,9 +186,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
             public boolean onQueryTextSubmit(String query) {
 
                 mExampleList.clear();
-                Log.e("researchAPI", "" +query);
                 if(type == 1){
-                    Log.e("researchAPI", "artiste");
                     parseJSONartist(query);
                     typeRecom="artist";
                 }
@@ -799,11 +846,9 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         }*/
         mp.seekTo(mp.getDuration());
         mp.reset();
-        if (lecteur.getVisibility()==View.INVISIBLE) {
-            lecteur.setVisibility(View.VISIBLE);
-            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-            params.height = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
-            lecteur.setLayoutParams(params);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        if(params.height==0) {
+            lecteurApparait.start();
         }
         try{
             //Log.e("testest", ""+model.getName() );
@@ -846,17 +891,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
 
                 mp.stop();
                 mp.reset();
-                lecteur.setVisibility(View.INVISIBLE);
-
-
-
-                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
-                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
-                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
-
-                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-                params.height=0;
-                lecteur.setLayoutParams(params);
+                lecteurDisparrait.start();
             }
         });
 

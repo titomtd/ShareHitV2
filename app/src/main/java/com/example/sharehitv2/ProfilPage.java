@@ -1,6 +1,7 @@
 
 package com.example.sharehitv2;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -97,6 +98,10 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
     private StorageReference mStorageRef;
 
+    private ValueAnimator lecteurApparait;
+    private ValueAnimator lecteurDisparrait;
+
+    private int ancienneHauteurLecteur;
 
 
     @SuppressLint("RestrictedApi")
@@ -153,11 +158,34 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         nameLect = findViewById(R.id.nameLect);
         musicImg = findViewById(R.id.musicImg);
 
-        lecteur.setVisibility(View.INVISIBLE);
-
         ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        ancienneHauteurLecteur=params.height;
         params.height=0;
         lecteur.setLayoutParams(params);
+
+        lecteurApparait = ValueAnimator.ofInt(lecteur.getMeasuredHeight(), ancienneHauteurLecteur);
+        lecteurApparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurApparait.setDuration(400);
+
+        lecteurDisparrait = ValueAnimator.ofInt(ancienneHauteurLecteur,0);
+        lecteurDisparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                int val = (Integer) valueAnimator.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = lecteur.getLayoutParams();
+                layoutParams.height = val;
+                lecteur.setLayoutParams(layoutParams);
+            }
+        });
+        lecteurDisparrait.setDuration(400);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -391,11 +419,9 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
     public void lancerMusique(Recommandation model) {
         mp.seekTo(mp.getDuration());
         mp.reset();
-        if (lecteur.getVisibility()==View.INVISIBLE) {
-            lecteur.setVisibility(View.VISIBLE);
-            ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-            params.height = android.app.ActionBar.LayoutParams.WRAP_CONTENT;
-            lecteur.setLayoutParams(params);
+        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
+        if(params.height==0) {
+            lecteurApparait.start();
         }
         try{
             Log.e("testest", ""+model.getUrlPreview() );mp.setDataSource(model.getUrlPreview());
@@ -436,17 +462,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
 
                 mp.stop();
                 mp.reset();
-                lecteur.setVisibility(View.INVISIBLE);
-
-
-
-                                /*recosViewHolder.playButton.setVisibility(View.VISIBLE);
-                                recosViewHolder.playButton.setImageResource(R.drawable.ic_play);
-                                recosViewHolder.player.setVisibility(View.INVISIBLE);*/
-
-                ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-                params.height=0;
-                lecteur.setLayoutParams(params);
+                lecteurDisparrait.start();
             }
         });
 
@@ -510,11 +526,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
     @Override
     public void stop() {
         mp.stop();
-        mp.stop();
         mp.reset();
-        lecteur.setVisibility(View.INVISIBLE);
-        ViewGroup.LayoutParams params = lecteur.getLayoutParams();
-        params.height=0;
-        lecteur.setLayoutParams(params);
+        lecteurDisparrait.start();
     }
 }
