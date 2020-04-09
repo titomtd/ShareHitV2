@@ -25,6 +25,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class BookmarkAdapter extends
@@ -105,7 +107,9 @@ public class BookmarkAdapter extends
         }
 
         ImageView imageView = viewHolder.imgBookmark;
-        if(!bookmark.getRecommandation().getUrlImage().equals("")) Picasso.with(context).load(bookmark.getRecommandation().getUrlImage()).fit().centerInside().into(imageView);
+        if(!bookmark.getRecommandation().getUrlImage().equals("")){
+            Picasso.with(context).load(bookmark.getRecommandation().getUrlImage()).fit().centerInside().into(imageView);
+        }
         final ImageView bookmarkDelete = viewHolder.bookmarkDelete;
         bookmarkDelete.setOnClickListener(new View.OnClickListener() {
             @Override

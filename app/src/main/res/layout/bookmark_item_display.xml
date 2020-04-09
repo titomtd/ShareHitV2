@@ -5,18 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginTop="10dp"
-    android:background="@drawable/rectangle"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:gravity="center">
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
         android:id="@+id/bookmarkImage"
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:background="@drawable/rectangle_gauche"
         android:visibility="visible"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="2dp"/>
+        android:layout_marginLeft="5dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +22,8 @@
         android:layout_weight="0.99"
         android:orientation="vertical"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
 
         <TextView
             android:id="@+id/bookmarkTitre"

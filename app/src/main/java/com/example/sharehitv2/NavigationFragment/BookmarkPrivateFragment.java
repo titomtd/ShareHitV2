@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.sharehitv2.Adapter.BookmarkAdapter;
 import com.example.sharehitv2.Model.Bookmark;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.Fragment.FollowFragment;
 import com.example.sharehitv2.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +48,8 @@ public class BookmarkPrivateFragment extends Fragment {
 
     private boolean isCharged;
 
+    private ActionBarInteraction actionBarInteraction;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_bookmark_private, container, false);
@@ -61,6 +65,7 @@ public class BookmarkPrivateFragment extends Fragment {
 
         isCharged = true;
 
+        actionBarInteraction = (ActionBarInteraction) getActivity();
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -94,25 +99,47 @@ public class BookmarkPrivateFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if(which == 0){
                             idx = 0;
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(trierList(0));
+                            swipeContainer.setRefreshing(false);
+                            actionBarInteraction.setTitle("Bookmark : Artiste");
                         } else if (which==1){
                             idx = 1;
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(trierList(1));
+                            actionBarInteraction.setTitle("Bookmark : Album");
                         } else if (which == 2){
                             idx = 2;
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(trierList(2));
+                            actionBarInteraction.setTitle("Bookmark : Morceau");
                         } else if (which == 3){
                             idx = 3;
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(trierList(3));
+                            actionBarInteraction.setTitle("Bookmark : Série");
                         } else if (which == 4){
                             idx = 4;
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(trierList(4));
+                            actionBarInteraction.setTitle("Bookmark : Film");
                         } else if (which == 5){
                             idx = 5;
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(trierList(5));
+                            actionBarInteraction.setTitle("Bookmark : Jeu Vidéo");
                         } else if (which == 6){
+                            isCharged = true;
+                            adapter.notifyDataSetChanged();
                             chargerRecyclerView(chargerListBookmark());
                             tri = false;
+                            actionBarInteraction.setTitle("Bookmark");
                         }
                     }
                 });
@@ -203,6 +230,10 @@ public class BookmarkPrivateFragment extends Fragment {
         adapter.notifyDataSetChanged();
         recyclerview.setAdapter(adapter);
         recyclerview.setVisibility(View.VISIBLE);
+    }
+
+    public interface ActionBarInteraction{
+        void setTitle(String title);
     }
 
 }

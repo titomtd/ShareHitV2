@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.sharehitv2.Adapter.RecommandationAdapter;
 import com.example.sharehitv2.Model.Recommandation;
+import com.example.sharehitv2.NavigationFragment.BookmarkPrivateFragment;
 import com.example.sharehitv2.NavigationFragment.FeedPageFragment;
 import com.example.sharehitv2.NavigationFragment.Fragment.FeedFragment;
 import com.example.sharehitv2.NavigationFragment.Fragment.FollowFragment;
@@ -56,7 +57,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener, FeedFragment.ActionBarInteraction, FollowFragment.ActionBarInteraction {
+public class PagePrincipale extends AppCompatActivity implements RecommandationAdapter.MediaListener, FeedFragment.ActionBarInteraction, FollowFragment.ActionBarInteraction, BookmarkPrivateFragment.ActionBarInteraction {
 
     private AppBarConfiguration mAppBarConfiguration;
     private long backPressedTime;
