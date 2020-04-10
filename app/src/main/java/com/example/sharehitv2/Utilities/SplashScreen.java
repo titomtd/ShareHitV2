@@ -22,7 +22,7 @@ public class SplashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
 
-        logo = (ImageView) findViewById(R.id.logoSplashScreen);
+        logo = findViewById(R.id.logoSplashScreen);
         final Animation anim = (AnimationUtils.loadAnimation(this, R.anim.zoomin));
         final Animation fadeOut = new AlphaAnimation(1, 0);
         logo.startAnimation(anim);

@@ -53,11 +53,11 @@ public class LoginPage extends AppCompatActivity {
         actionBar.hide();
 
         mAuth = FirebaseAuth.getInstance();
-        emailLog = (EditText) findViewById(R.id.emailLog);
-        passLog = (EditText) findViewById(R.id.passLog);
-        loginButt = (Button) findViewById(R.id.loginButt);
-        textView5 = (TextView) findViewById(R.id.textView5);
-        textView2 = (TextView) findViewById(R.id.textView2);
+        emailLog = findViewById(R.id.emailLog);
+        passLog = findViewById(R.id.passLog);
+        loginButt = findViewById(R.id.loginButt);
+        textView5 = findViewById(R.id.textView5);
+        textView2 = findViewById(R.id.textView2);
 
         textView5.setOnClickListener(new View.OnClickListener(){
             @Override

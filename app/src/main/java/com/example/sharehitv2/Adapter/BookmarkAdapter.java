@@ -191,13 +191,13 @@ public class BookmarkAdapter extends
         public ViewHolder(View itemView) {
             super(itemView);
 
-            titreBookmark = (TextView) itemView.findViewById(R.id.bookmarkTitre);
-            sousTitreBookmark = (TextView) itemView.findViewById(R.id.bookmarkSoustitre);
-            typeBookmark = (TextView) itemView.findViewById(R.id.bookmarkType);
-            imgBookmark = (ImageView) itemView.findViewById(R.id.bookmarkImage);
-            bookmarkDelete = (ImageView) itemView.findViewById(R.id.bookmarkDelete);
-            bookmarkLink = (ImageView) itemView.findViewById(R.id.bookmarkLink);
-            bookmarkMain = (LinearLayout) itemView.findViewById(R.id.bookmarkMain);
+            titreBookmark = itemView.findViewById(R.id.bookmarkTitre);
+            sousTitreBookmark = itemView.findViewById(R.id.bookmarkSoustitre);
+            typeBookmark = itemView.findViewById(R.id.bookmarkType);
+            imgBookmark = itemView.findViewById(R.id.bookmarkImage);
+            bookmarkDelete = itemView.findViewById(R.id.bookmarkDelete);
+            bookmarkLink = itemView.findViewById(R.id.bookmarkLink);
+            bookmarkMain = itemView.findViewById(R.id.bookmarkMain);
         }
     }
 }

@@ -65,7 +65,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center">
 
@@ -75,7 +75,14 @@
                 android:layout_height="350dp"
                 android:background="@color/space_transparent"
                 android:scaleType="center"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@mipmap/ic_launcher"
+                android:translationZ="2dp"/>
+
+            <WebView
+                android:id="@+id/lecteurVideo"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:translationZ="1dp" />
 
             <ImageView
                 android:id="@+id/circle"
@@ -88,7 +95,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="125dp"
-                app:srcCompat="@drawable/cercle" />
+                app:srcCompat="@drawable/cercle"
+                android:translationZ="2dp"/>
 
             <ImageView
                 android:id="@+id/playButton"
@@ -104,7 +112,8 @@
                 android:paddingTop="30dp"
                 android:paddingRight="18dp"
                 android:paddingBottom="30dp"
-                app:srcCompat="@drawable/ic_play_white" />
+                app:srcCompat="@drawable/ic_play_white"
+                android:translationZ="2dp"/>
 
             <com.taishi.library.Indicator
                 android:layout_width="0dp"
@@ -122,10 +131,24 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
                 android:visibility="invisible"
-                app:bar_color="@color/white" />
+                app:bar_color="@color/white"
+                android:translationZ="2dp"/>
         </RelativeLayout>
 
 
+        <Button
+            android:id="@+id/stopVideo"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="3dp"
+            android:background="@drawable/fond_sel"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:text="Stopper la vidéo"
+            android:textColor="@color/white" />
         <Space
             android:layout_width="match_parent"
             android:layout_height="10dp"

@@ -103,8 +103,8 @@ public class SearchUserAdapter extends
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageProfil = (CircleImageView) itemView.findViewById(R.id.imageSearchUser);
-            pseudoProfil = (TextView) itemView.findViewById(R.id.pseudoSearchUser);
+            imageProfil = itemView.findViewById(R.id.imageSearchUser);
+            pseudoProfil = itemView.findViewById(R.id.pseudoSearchUser);
         }
     }
 }

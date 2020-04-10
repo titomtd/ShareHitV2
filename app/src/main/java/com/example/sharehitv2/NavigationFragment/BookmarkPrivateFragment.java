@@ -54,9 +54,9 @@ public class BookmarkPrivateFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_bookmark_private, container, false);
 
-        swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainer);
-        recyclerview = (RecyclerView) root.findViewById(R.id.postBookmarkRecyclerView);
-        typeListBookmark = (FloatingActionButton) root.findViewById(R.id.typeBookmarkList);
+        swipeContainer = root.findViewById(R.id.swipeContainer);
+        recyclerview = root.findViewById(R.id.postBookmarkRecyclerView);
+        typeListBookmark = root.findViewById(R.id.typeBookmarkList);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -91,7 +91,7 @@ public class BookmarkPrivateFragment extends Fragment {
         typeListBookmark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String options[] = {"Artiste","Album","Morceau","Serie","Film","Jeux vidéos", "Aucun tri"};
+                String[] options = {"Artiste", "Album", "Morceau", "Serie", "Film", "Jeux vidéos", "Aucun tri"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Trier par :");
                 builder.setItems(options, new DialogInterface.OnClickListener() {

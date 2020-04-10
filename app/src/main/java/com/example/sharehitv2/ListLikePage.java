@@ -38,10 +38,10 @@ public class ListLikePage extends AppCompatActivity {
         setContentView(R.layout.activity_list_like_page);
 
         // Initialisation page ListLike
-        recyclerLike = (RecyclerView) findViewById(R.id.likeRecyclerView);
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerListlike);
+        recyclerLike = findViewById(R.id.likeRecyclerView);
+        swipeContainer = findViewById(R.id.swipeContainerListlike);
 
-        androidx.appcompat.widget.Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarListLikePage);
+        androidx.appcompat.widget.Toolbar toolbar = findViewById(R.id.toolbarListLikePage);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 

@@ -88,7 +88,7 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_follow, null);
         recyclerView = root.findViewById(R.id.postFollowRecyclerView);
-        swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainerFollow);
+        swipeContainer = root.findViewById(R.id.swipeContainerFollow);
 
         triReco = root.findViewById(R.id.triReco);
         ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
@@ -392,10 +392,7 @@ public class FollowFragment extends Fragment implements FeedPageFragment.Interac
     }
 
     private boolean loadFragement(Fragment fragment){
-        if(fragment != null){
-            return true;
-        }
-        return false;
+        return fragment != null;
     }
 
     public List<Recommandation> filtrerList(int i){

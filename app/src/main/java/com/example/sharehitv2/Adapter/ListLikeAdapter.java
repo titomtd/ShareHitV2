@@ -110,8 +110,8 @@ public class ListLikeAdapter extends
 
         public ViewHolder(View itemView) {
             super(itemView);
-            pseudoUser = (TextView) itemView.findViewById(R.id.pseudoProfilListLike);
-            pictureUser = (CircleImageView) itemView.findViewById(R.id.imageProfilListLike);
+            pseudoUser = itemView.findViewById(R.id.pseudoProfilListLike);
+            pictureUser = itemView.findViewById(R.id.imageProfilListLike);
 
         }
     }

@@ -87,9 +87,9 @@ public class PagePrincipale extends AppCompatActivity implements RecommandationA
         NavigationUI.setupWithNavController(navigationView, navController);
 
         View header = navigationView.getHeaderView(0);
-        final TextView text = (TextView) header.findViewById(R.id.pseudoProfilHeader);
-        final TextView text2 = (TextView) header.findViewById(R.id.emailProfilHeader);
-        final CircleImageView imageView = (CircleImageView) header.findViewById(R.id.imageProfilHeader);
+        final TextView text = header.findViewById(R.id.pseudoProfilHeader);
+        final TextView text2 = header.findViewById(R.id.emailProfilHeader);
+        final CircleImageView imageView = header.findViewById(R.id.imageProfilHeader);
         FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -85,7 +85,7 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
         Log.e("testest", "load feed fragment");
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_feed, null);
         recyclerView = root.findViewById(R.id.postRecyclerView);
-        swipeContainer = (SwipeRefreshLayout) root.findViewById(R.id.swipeContainerFeed);
+        swipeContainer = root.findViewById(R.id.swipeContainerFeed);
 
         triReco = root.findViewById(R.id.triReco);
         ViewGroup.LayoutParams layoutParams = triReco.getLayoutParams();
@@ -390,10 +390,7 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
     }
 
     private boolean loadFragement(Fragment fragment){
-        if(fragment != null){
-            return true;
-        }
-        return false;
+        return fragment != null;
     }
 
     public List<Recommandation> filtrerList(int i){
@@ -477,7 +474,7 @@ public class FeedFragment extends Fragment implements FeedPageFragment.Interacti
     }
 
     public interface ActionBarInteraction{
-        public void setTitle(String title);
+        void setTitle(String title);
     }
 }
 

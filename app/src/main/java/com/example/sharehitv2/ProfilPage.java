@@ -120,12 +120,12 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         setContentView(R.layout.activity_profil_page);
 
 
-        nbrAbonnement = (TextView) findViewById(R.id.nbrAbonnement);
-        pseudo = (TextView) findViewById(R.id.pseudoProfilPage);
-        pdp = (CircleImageView) findViewById(R.id.pdpProfilPage);
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerProfilPage);
-        post = (RecyclerView) findViewById(R.id.postProfilPageRecyclerView);
-        follow = (FloatingActionButton) findViewById(R.id.follow);
+        nbrAbonnement = findViewById(R.id.nbrAbonnement);
+        pseudo = findViewById(R.id.pseudoProfilPage);
+        pdp = findViewById(R.id.pdpProfilPage);
+        swipeContainer = findViewById(R.id.swipeContainerProfilPage);
+        post = findViewById(R.id.postProfilPageRecyclerView);
+        follow = findViewById(R.id.follow);
 
         CURRENT_FOLLOW = false;
         isCharged = true;
@@ -188,7 +188,7 @@ public class ProfilPage extends AppCompatActivity implements RecommandationAdapt
         lecteurDisparrait.setDuration(400);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("");

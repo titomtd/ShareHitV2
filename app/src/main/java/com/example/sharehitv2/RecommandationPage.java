@@ -133,7 +133,7 @@ public class RecommandationPage extends AppCompatActivity {
 
         final Recommandation recommandation = new Gson().fromJson(jsonMyObject, Recommandation.class);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarRecommandationPage);
+        Toolbar toolbar = findViewById(R.id.toolbarRecommandationPage);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         String title = "";
@@ -154,7 +154,7 @@ public class RecommandationPage extends AppCompatActivity {
             }
         });
 
-        commentList = (RecyclerView) findViewById(R.id.recyclerViewComment);
+        commentList = findViewById(R.id.recyclerViewComment);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(false);
@@ -163,7 +163,7 @@ public class RecommandationPage extends AppCompatActivity {
         nbrlike = findViewById(R.id.nbrLike);
 
         autreComment = findViewById(R.id.autreComment);
-        titreReco = findViewById(R.id.name);;
+        titreReco = findViewById(R.id.name);
 
         commentButton = findViewById(R.id.commentButton);
         bookmarkButton = findViewById(R.id.bookButton);
@@ -851,11 +851,7 @@ public class RecommandationPage extends AppCompatActivity {
     }
 
     public boolean heCanBePlayed(String s){
-        if(s.equals("album") || s.equals("artist") || s.equals("track")){
-            return true;
-        } else {
-            return false;
-        }
+        return s.equals("album") || s.equals("artist") || s.equals("track");
     }
 
     public static Drawable drawableFromUrl(String url) throws IOException {

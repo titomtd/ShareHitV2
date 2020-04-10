@@ -61,7 +61,7 @@ public class CommentPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_page);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarCommentPage);
+        Toolbar toolbar = findViewById(R.id.toolbarCommentPage);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Commentaire");
@@ -75,7 +75,7 @@ public class CommentPage extends AppCompatActivity {
             }
         });
 
-        commentList = (RecyclerView) findViewById(R.id.commentRecyclerView);
+        commentList = findViewById(R.id.commentRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(false);
@@ -83,8 +83,8 @@ public class CommentPage extends AppCompatActivity {
 
 
 
-        sendButton = (TextView) findViewById(R.id.sendComment);
-        sendText = (EditText) findViewById(R.id.textComment);
+        sendButton = findViewById(R.id.sendComment);
+        sendText = findViewById(R.id.textComment);
 
         Bundle b = getIntent().getExtras();
 
@@ -238,22 +238,22 @@ public class CommentPage extends AppCompatActivity {
         }
 
         public void setMessage(String name){
-            TextView tx = (TextView) mView.findViewById(R.id.comment);
+            TextView tx = mView.findViewById(R.id.comment);
             tx.setText(name);
         }
 
         public CircleImageView getImgProfilComment(){
-            CircleImageView img = (CircleImageView) mView.findViewById(R.id.imageProfilComment);
+            CircleImageView img = mView.findViewById(R.id.imageProfilComment);
             return img;
         }
 
         public void setTime(String time){
-            TextView tx = (TextView) mView.findViewById(R.id.timeStamp);
+            TextView tx = mView.findViewById(R.id.timeStamp);
             tx.setText(time);
         }
 
         public void setPseudoComment(String name){
-            TextView tx = (TextView) mView.findViewById(R.id.pseudoComment);
+            TextView tx = mView.findViewById(R.id.pseudoComment);
             tx.setText(name);
         }
     }

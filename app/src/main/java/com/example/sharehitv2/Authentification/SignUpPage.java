@@ -52,10 +52,10 @@ public class SignUpPage extends AppCompatActivity {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Wait while loading...");
         actionBar.hide();
-        email_id = (EditText) findViewById(R.id.email_y);
-        pass_id = (EditText) findViewById(R.id.pass_y);
-        regButt = (Button) findViewById(R.id.regButt);
-        pseudo_y = (EditText) findViewById(R.id.pseudo);
+        email_id = findViewById(R.id.email_y);
+        pass_id = findViewById(R.id.pass_y);
+        regButt = findViewById(R.id.regButt);
+        pseudo_y = findViewById(R.id.pseudo);
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = FirebaseDatabase.getInstance().getReference();

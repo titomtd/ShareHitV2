@@ -39,7 +39,7 @@ public class ListFollowPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_follow_page);
 
-        listFollowRecyclerView = (RecyclerView) findViewById(R.id.listFollowRecyclerView);
+        listFollowRecyclerView = findViewById(R.id.listFollowRecyclerView);
 
         mAuth = FirebaseAuth.getInstance();
         recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
@@ -47,7 +47,7 @@ public class ListFollowPage extends AppCompatActivity {
 
         b = getIntent().getExtras();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarListFollow);
+        Toolbar toolbar = findViewById(R.id.toolbarListFollow);
         setSupportActionBar(toolbar);
         final ActionBar actionBar = getSupportActionBar();
 

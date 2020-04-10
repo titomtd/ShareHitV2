@@ -97,9 +97,9 @@ public class ProfilPageAncienne extends AppCompatActivity implements Recommandat
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil_page_ancienne);
 
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainerProfilPage);
-        post = (RecyclerView) findViewById(R.id.postProfilPageRecyclerView);
-        nbrAbonnement = (TextView) findViewById(R.id.nbrAbonnement);
+        swipeContainer = findViewById(R.id.swipeContainerProfilPage);
+        post = findViewById(R.id.postProfilPageRecyclerView);
+        nbrAbonnement = findViewById(R.id.nbrAbonnement);
 
         CURRENT_FOLLOW = false;
         isCharged = true;
@@ -142,10 +142,10 @@ public class ProfilPageAncienne extends AppCompatActivity implements Recommandat
         recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
         usersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
-        pdp = (CircleImageView) findViewById(R.id.pdpProfilPage);
-        pseudo = (TextView) findViewById(R.id.pseudoProfilPage);
-        follow = (Button) findViewById(R.id.followProfilPage);
-        textView = (TextView) findViewById(R.id.textView8);
+        pdp = findViewById(R.id.pdpProfilPage);
+        pseudo = findViewById(R.id.pseudoProfilPage);
+        follow = findViewById(R.id.followProfilPage);
+        textView = findViewById(R.id.textView8);
 
 
         final ActionBar actionBar = getSupportActionBar();

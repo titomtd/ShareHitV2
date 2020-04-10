@@ -19,8 +19,8 @@ public class ConfidentialitéFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_condidentialite, container, false);
 
-        frameAPropos = (FrameLayout) root.findViewById(R.id.frameAPropos);
-        frameCondition = (FrameLayout) root.findViewById(R.id.frameCondition);
+        frameAPropos = root.findViewById(R.id.frameAPropos);
+        frameCondition = root.findViewById(R.id.frameCondition);
 
 
         frameAPropos.setOnClickListener(new View.OnClickListener() {

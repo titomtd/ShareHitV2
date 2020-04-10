@@ -47,8 +47,8 @@ public class SearchProfilFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_search_user, container, false);
 
 
-        recyclerViewSearchProfil = (RecyclerView) root.findViewById(R.id.recyclerViewSearchProfil);
-        searchProfilBar = (SearchView) root.findViewById(R.id.searchProfilBar);
+        recyclerViewSearchProfil = root.findViewById(R.id.recyclerViewSearchProfil);
+        searchProfilBar = root.findViewById(R.id.searchProfilBar);
         aucunResultat = root.findViewById(R.id.aucunResultatProfil);
 
         ViewGroup.LayoutParams params = aucunResultat.getLayoutParams();
@@ -143,8 +143,8 @@ public class SearchProfilFragment extends Fragment {
 
         public SearchProfilHolder(View itemView) {
             super(itemView);
-            pseudo = (TextView) itemView.findViewById(R.id.pseudoSearchUser);
-            image = (CircleImageView) itemView.findViewById(R.id.imageSearchUser);
+            pseudo = itemView.findViewById(R.id.pseudoSearchUser);
+            image = itemView.findViewById(R.id.imageSearchUser);
         }
 
 

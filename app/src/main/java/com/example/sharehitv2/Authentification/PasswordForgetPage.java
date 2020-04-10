@@ -31,8 +31,8 @@ public class PasswordForgetPage extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        emailLog = (EditText) findViewById(R.id.emailLog);
-        sendButt = (Button) findViewById(R.id.sendButt);
+        emailLog = findViewById(R.id.emailLog);
+        sendButt = findViewById(R.id.sendButt);
         mAuth = FirebaseAuth.getInstance();
 
         final ProgressDialog progress = new ProgressDialog(this);

@@ -1,5 +1,6 @@
 package com.example.sharehitv2.Adapter;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -26,10 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sharehitv2.CommentPage;
 import com.example.sharehitv2.ListLikePage;
 import com.example.sharehitv2.Model.Recommandation;
-import com.example.sharehitv2.NavigationFragment.Fragment.FeedFragment;
-import com.example.sharehitv2.NavigationFragment.MyProfilFragment;
 import com.example.sharehitv2.ProfilPage;
-import com.example.sharehitv2.ProfilPageAncienne;
 import com.example.sharehitv2.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -284,7 +285,13 @@ public class RecommandationAdapter extends
                 } else {
                     viewHolder.playButton.startAnimation(buttonClick);
                     mediaListener.stop();
-                    mediaListener.lancerVideo(recommandation);
+                    //mediaListener.lancerVideo(recommandation);
+                    viewHolder.lecteurVideo.setElevation(10f);
+                    viewHolder.lecteurVideo.getSettings().setJavaScriptEnabled(true);
+                    viewHolder.lecteurVideo.getSettings().setPluginState(WebSettings.PluginState.ON);
+                    viewHolder.lecteurVideo.loadUrl("https://www.youtube.com/embed/"+recommandation.getUrlPreview());
+                    viewHolder.lecteurVideo.setWebChromeClient(new WebChromeClient());
+                    viewHolder.stopApparait.start();
 
                     //Toast.makeText(context, "Impossible de lire ce contenu", Toast.LENGTH_LONG).show();
                 }
@@ -576,12 +583,21 @@ public class RecommandationAdapter extends
 
             }
         });
+        viewHolder.stopVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewHolder.lecteurVideo.setElevation(0);
+                viewHolder.lecteurVideo.loadUrl("about:blank");
+                viewHolder.stopDisparrait.start();
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return mRecommandation.size();
     }
+
 
     public void clear() {
         mRecommandation.clear();
@@ -593,11 +609,7 @@ public class RecommandationAdapter extends
     }
 
     public boolean heCanBePlayed(String s){
-        if(s.equals("album") || s.equals("artist") || s.equals("track")){
-            return true;
-        } else {
-            return false;
-        }
+        return s.equals("album") || s.equals("artist") || s.equals("track");
     }
 
 
@@ -626,6 +638,14 @@ public class RecommandationAdapter extends
 
         final LinearLayout layout;
         final LinearLayout.LayoutParams params;
+
+        WebView lecteurVideo;
+        Button stopVideo;
+
+        int stopVideoHeight;
+
+        ValueAnimator stopApparait;
+        ValueAnimator stopDisparrait;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -657,6 +677,39 @@ public class RecommandationAdapter extends
             layout =itemView.findViewById(R.id.linearLayoutReco);
             params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            lecteurVideo = itemView.findViewById(R.id.lecteurVideo);
+            stopVideo = itemView.findViewById(R.id.stopVideo);
+
+            ViewGroup.LayoutParams params = stopVideo.getLayoutParams();
+            stopVideoHeight=params.height;
+            params.height=0;
+            stopVideo.setLayoutParams(params);
+
+            stopApparait = ValueAnimator.ofInt(stopVideo.getMeasuredHeight(), stopVideoHeight);
+            stopApparait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    ViewGroup.LayoutParams layoutParams = stopVideo.getLayoutParams();
+                    layoutParams.height = val;
+                    stopVideo.setLayoutParams(layoutParams);
+                }
+            });
+            stopApparait.setDuration(400);
+
+            stopDisparrait = ValueAnimator.ofInt(stopVideoHeight,0);
+            stopDisparrait.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                    int val = (Integer) valueAnimator.getAnimatedValue();
+                    ViewGroup.LayoutParams layoutParams = stopVideo.getLayoutParams();
+                    layoutParams.height = val;
+                    stopVideo.setLayoutParams(layoutParams);
+                }
+            });
+            stopDisparrait.setDuration(400);
+
         }
 
         public void setAutreComment(String autreComment1){
@@ -722,7 +775,6 @@ public class RecommandationAdapter extends
             ImageButton img = itemView.findViewById(R.id.bookButton);
             return img;
         }
-
     }
 
     public static long currentTimeSecsUTC() {

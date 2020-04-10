@@ -107,7 +107,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
         ActionBar actionBar = getSupportActionBar();
         actionBar.hide();
 
-        search = (SearchView) findViewById(R.id.searchv);
+        search = findViewById(R.id.searchv);
 
         Bundle b = getIntent().getExtras();
         if(b != null)
@@ -783,13 +783,13 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
                 );
                 if(clickedItem instanceof Morceau){
                     recommandation.setTrack(clickedItem.getName());
-                    recommandation.setUrlPreview(((Morceau)clickedItem).getSongUrl());
+                    recommandation.setUrlPreview(clickedItem.getSongUrl());
                     recommandation.setAlbum(((Morceau) clickedItem).getAlbum());
                     recommandation.setArtist(clickedItem.getSpec());
                 }
                 else if(clickedItem instanceof Artist){
                     recommandation.setArtist(clickedItem.getName());
-                    recommandation.setUrlPreview(((Artist)clickedItem).getSongUrl());
+                    recommandation.setUrlPreview(clickedItem.getSongUrl());
                 }
                 else if(clickedItem instanceof Video){
                     recommandation.setUrlPreview(((Video) clickedItem).getIdYoutube());
@@ -798,7 +798,7 @@ public class ApiManager extends AppCompatActivity implements TypeAdapter.OnItemc
                 else if(clickedItem instanceof Album){
                     recommandation.setAlbum(clickedItem.getName());
                     recommandation.setArtist(clickedItem.getSpec());
-                    recommandation.setUrlPreview(((Album)clickedItem).getSongUrl());
+                    recommandation.setUrlPreview(clickedItem.getSongUrl());
                 }else{
                     recommandation.setArtist(clickedItem.getName());
                 }

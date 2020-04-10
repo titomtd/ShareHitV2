@@ -22,11 +22,13 @@ import android.view.animation.AnimationUtils;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,14 +79,13 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1888;
     ImageView pdp;
     TextView pseudo;
-    FloatingActionButton fb;
     ProgressDialog pd;
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int STORAGE_REQUEST_CODE = 200;
     private static final int IMAGE_PICK_GALLERY_CODE = 300;
     private static final int PICK_IMAGE_REQUEST = 111;
-    String cameraPermissions[];
-    String storagePermissions[];
+    String[] cameraPermissions;
+    String[] storagePermissions;
     public boolean CURRENT_LIKE;
     private RecyclerView recyclerView;
     private final static MediaPlayer mp = new MediaPlayer();
@@ -145,7 +146,6 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
         myRef = database.getReference("users");
         pdp=  root.findViewById(R.id.pdp);
         pseudo= root.findViewById(R.id.pseudo);
-        fb = root.findViewById(R.id.fb);
         final String userUID = firebaseAuth.getCurrentUser().getUid();
         recosRef = FirebaseDatabase.getInstance().getReference().child("recos");
 
@@ -221,41 +221,6 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
             }
         });
 
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showEditProfileDialog();
-            }
-        });
-        fb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String options[] = {"Changer de photo de profil","Changer de pseudo"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Paramètres");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(which == 0){
-                            pd.setMessage("Chargement...");
-                            if(!checkStoragePermission()){
-                                requestStoragePermission();
-                            }else {
-                                pickFromGallery();
-                            }
-                        }
-                        else if (which==1) {
-                            pd.setMessage("Chargement...");
-                            showNameUpdateDialog();
-                        }
-                    }
-                });
-                builder.create().show();
-
-            }
-        });
-
         //displayAllPostUid();
 
         chargerRecyclerView(chargerListRecommandation());
@@ -291,7 +256,7 @@ public class MyProfilFragment extends Fragment implements RecommandationAdapter.
 
     private void showEditProfileDialog() {
 
-        String options[] = {"Changer de photo de profil", "Changer de pseudo"};
+        String[] options = {"Changer de photo de profil", "Changer de pseudo"};
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Edition du profil");
         builder.setItems(options, new DialogInterface.OnClickListener() {

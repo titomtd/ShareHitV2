@@ -59,15 +59,13 @@
         android:id="@+id/lecteur"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/textView6"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="0dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="0dp"
         android:layout_marginRight="0dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@drawable/rectangle_lecteur_ligne_haut"
+        android:orientation="horizontal">
 
 
         <!--<TextView
@@ -148,7 +146,7 @@
                 android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@color/white"
+                android:background="@color/transparent"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button1"
@@ -167,7 +165,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
-                android:background="@color/white"
+                android:background="@color/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -179,13 +177,15 @@
 
     </LinearLayout>
 
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainerProfil"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lecteur"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="10dp">
+        android:layout_above="@+id/lecteur"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="1dp">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/postIudRecyclerView"
@@ -193,19 +193,6 @@
             android:layout_height="wrap_content" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="30dp"
-        android:clickable="true"
-        android:src="@drawable/button_settings"
-        app:backgroundTint="@color/colorPrimary" />
 
 
 
